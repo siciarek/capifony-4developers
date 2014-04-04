@@ -1,0 +1,125 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>5. Sprawdzanie ustawień na serwerze lokalnym i zdalnym &mdash; Wdrażanie (deployment) projektów Symfony2 przy pomocy Capifony 1.0 - dokumentacja</title>
+    
+    <link rel="stylesheet" href="../_static/nature.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    <link rel="stylesheet" href="http://symfony.com/css/compiled/all.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../',
+        VERSION:     '1.0',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="http://symfony.com/js/all.js"></script>
+    <link rel="top" title="Wdrażanie (deployment) projektów Symfony2 przy pomocy Capifony 1.0 - dokumentacja" href="../index.html" />
+    <link rel="next" title="6. Inicjalizacja środowiska produkcyjnego aplikacji" href="setup.html" />
+    <link rel="prev" title="4. Capistrano - Swiss Army Knife" href="capistrano.html" /> 
+  </head>
+  <body>
+    <div class="related">
+      <h3>Nawigacja</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="Indeks ogólny"
+             accesskey="I">indeks</a></li>
+        <li class="right" >
+          <a href="setup.html" title="6. Inicjalizacja środowiska produkcyjnego aplikacji"
+             accesskey="N">dalej</a> |</li>
+        <li class="right" >
+          <a href="capistrano.html" title="4. Capistrano - Swiss Army Knife"
+             accesskey="P">wstecz</a> |</li>
+        <li><a href="../index.html">Wdrażanie (deployment) projektów Symfony2 przy pomocy Capifony 1.0 - dokumentacja</a> &raquo;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+          <div class="body">
+            
+  <div class="section" id="sprawdzanie-ustawien-na-serwerze-lokalnym-i-zdalnym">
+<h1>5. Sprawdzanie ustawień na serwerze lokalnym i zdalnym<a class="headerlink" href="#sprawdzanie-ustawien-na-serwerze-lokalnym-i-zdalnym" title="Stały odnośnik do tego nagłówka">¶</a></h1>
+<p>Aby umożliwić sprawdzenie ustawień na lokalnym i zdalnym serwerze <tt class="docutils literal"><span class="pre">Capistrano</span></tt> udostępnia polecenie</p>
+<div class="highlight-bash"><div class="highlight"><pre><span class="nv">$ </span>cap deploy:check
+</pre></div>
+</div>
+<p>W wersji podstawowej sprawdza obecność i prawa dostępu do katalogów utworzonych poleceniem</p>
+<div class="highlight-bash"><div class="highlight"><pre><span class="nv">$ </span>cap deploy:setup
+</pre></div>
+</div>
+<p>Dostępność komendy <tt class="docutils literal"><span class="pre">tar</span></tt> na zdalnym serwerze oraz <tt class="docutils literal"><span class="pre">programu</span> <span class="pre">do</span> <span class="pre">kontroli</span> <span class="pre">wersji</span></tt> na lokalnym.</p>
+<p>Wyświetlane są tylko efekty działania komendy sprawdzającej na zdalnym serwerze, chyba, że pojawią
+się błędy, wtedy wyświetlane są w postaci komunikatu np.:</p>
+<div class="highlight-none"><div class="highlight"><pre>The following dependencies failed. Please check them and try again:
+--&gt; `git&#39; could not be found in the path on the local host
+--&gt; `setfacl&#39; could not be found in the path (ekk.sescom.pl)
+</pre></div>
+</div>
+<p>Jeżeli sprawdzanie zakończy się sukcesem pojawi się komunikat:</p>
+<div class="highlight-none"><div class="highlight"><pre>You appear to have all necessary dependencies installed
+</pre></div>
+</div>
+<p>Aby umożliwić dodawanie sprawdzania zasobów <tt class="docutils literal"><span class="pre">Capistrano</span></tt> udostępnia metodę <tt class="docutils literal"><span class="pre">depend</span></tt> Przyjmującą 3 argumenty</p>
+<p><strong>Pierwszy parametr</strong> określa miejsce sprawdzania, może przyjmować poniższe wartości:</p>
+<blockquote>
+<div><ul class="simple">
+<li><tt class="docutils literal"><span class="pre">:local</span></tt> jeżeli chcemy sprawdzać serwer z którego przeprowadzamy wdrożenie</li>
+<li><tt class="docutils literal"><span class="pre">:remote</span></tt> jeżeli chcemy sprawdzić zdalne serwery.</li>
+</ul>
+</div></blockquote>
+<p><strong>Drugi parametr</strong> określa typ sprawdzanego zasobu i może przyjmować poniższe wartości:</p>
+<blockquote>
+<div><ul class="simple">
+<li><tt class="docutils literal"><span class="pre">:directory</span></tt> sprawdza czy istnieje katalog.</li>
+<li><tt class="docutils literal"><span class="pre">:file</span></tt> sprawdza czy istnieje plik.</li>
+<li><tt class="docutils literal"><span class="pre">:writable</span></tt> sprawdza czy katalog lub plik posiada prawa do zapisu.</li>
+<li><tt class="docutils literal"><span class="pre">:command</span></tt> sprawdza czy komenda jest dostępna.</li>
+<li><tt class="docutils literal"><span class="pre">:deb</span></tt> sprawdza czy pakiet jest zainstalowany.</li>
+</ul>
+</div></blockquote>
+<p><strong>Trzeci parametr</strong> to nazwa sprawdzanego zasobu w postaci <tt class="docutils literal"><span class="pre">łańcucha</span> <span class="pre">znaków</span></tt>.</p>
+<div class="section" id="przyklady-uzycia">
+<h2>5.1. Przykłady użycia<a class="headerlink" href="#przyklady-uzycia" title="Stały odnośnik do tego nagłówka">¶</a></h2>
+<div class="highlight-ruby"><div class="highlight"><pre><span class="n">depend</span> <span class="ss">:local</span><span class="p">,</span>  <span class="ss">:command</span><span class="p">,</span> <span class="s2">&quot;convert&quot;</span>
+<span class="n">depend</span> <span class="ss">:remote</span><span class="p">,</span> <span class="ss">:command</span><span class="p">,</span> <span class="s2">&quot;setfacl&quot;</span>
+</pre></div>
+</div>
+</div>
+</div>
+
+
+          </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related">
+      <h3>Nawigacja</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="Indeks ogólny"
+             >indeks</a></li>
+        <li class="right" >
+          <a href="setup.html" title="6. Inicjalizacja środowiska produkcyjnego aplikacji"
+             >dalej</a> |</li>
+        <li class="right" >
+          <a href="capistrano.html" title="4. Capistrano - Swiss Army Knife"
+             >wstecz</a> |</li>
+        <li><a href="../index.html">Wdrażanie (deployment) projektów Symfony2 przy pomocy Capifony 1.0 - dokumentacja</a> &raquo;</li> 
+      </ul>
+    </div>
+    <div class="footer">
+        &copy; Copyright 2014, Jacek Siciarek.
+      Utworzone przy pomocy <a href="http://sphinx-doc.org/">Sphinx</a>'a 1.2b3.
+    </div>
+  </body>
+</html>

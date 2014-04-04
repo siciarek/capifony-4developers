@@ -1,0 +1,260 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>8. Zakres informacji zwracany przez cap &mdash; Wdrażanie (deployment) projektów Symfony2 przy pomocy Capifony 1.0 - dokumentacja</title>
+    
+    <link rel="stylesheet" href="../_static/nature.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    <link rel="stylesheet" href="http://symfony.com/css/compiled/all.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../',
+        VERSION:     '1.0',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="http://symfony.com/js/all.js"></script>
+    <link rel="top" title="Wdrażanie (deployment) projektów Symfony2 przy pomocy Capifony 1.0 - dokumentacja" href="../index.html" />
+    <link rel="next" title="9. Capifony - Capistrano dla Symfony" href="capifony.html" />
+    <link rel="prev" title="7. Source Control Management" href="scm.html" /> 
+  </head>
+  <body>
+    <div class="related">
+      <h3>Nawigacja</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="Indeks ogólny"
+             accesskey="I">indeks</a></li>
+        <li class="right" >
+          <a href="capifony.html" title="9. Capifony - Capistrano dla Symfony"
+             accesskey="N">dalej</a> |</li>
+        <li class="right" >
+          <a href="scm.html" title="7. Source Control Management"
+             accesskey="P">wstecz</a> |</li>
+        <li><a href="../index.html">Wdrażanie (deployment) projektów Symfony2 przy pomocy Capifony 1.0 - dokumentacja</a> &raquo;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+          <div class="body">
+            
+  <div class="section" id="zakres-informacji-zwracany-przez-cap">
+<h1>8. Zakres informacji zwracany przez <tt class="docutils literal"><span class="pre">cap</span></tt><a class="headerlink" href="#zakres-informacji-zwracany-przez-cap" title="Stały odnośnik do tego nagłówka">¶</a></h1>
+<p>Capistrano umożliwia wyświetlanie informacji o wykonywanych komendach w różnych zakresach.</p>
+<div class="section" id="typy-zakresu">
+<h2>8.1. Typy zakresu<a class="headerlink" href="#typy-zakresu" title="Stały odnośnik do tego nagłówka">¶</a></h2>
+<div class="highlight-ruby"><div class="highlight"><pre><span class="n">logger</span><span class="o">.</span><span class="n">level</span> <span class="o">=</span> <span class="ss">Logger</span><span class="p">:</span><span class="ss">:IMPORTANT</span> <span class="c1"># --&gt;</span>
+<span class="n">logger</span><span class="o">.</span><span class="n">level</span> <span class="o">=</span> <span class="ss">Logger</span><span class="p">:</span><span class="ss">:INFO</span>      <span class="c1"># **</span>
+<span class="n">logger</span><span class="o">.</span><span class="n">level</span> <span class="o">=</span> <span class="ss">Logger</span><span class="p">:</span><span class="ss">:DEBUG</span>     <span class="c1">#  *</span>
+<span class="n">logger</span><span class="o">.</span><span class="n">level</span> <span class="o">=</span> <span class="ss">Logger</span><span class="p">:</span><span class="ss">:TRACE</span>     <span class="c1">#</span>
+<span class="n">logger</span><span class="o">.</span><span class="n">level</span> <span class="o">=</span> <span class="ss">Logger</span><span class="p">:</span><span class="ss">:MAX_LEVEL</span> <span class="c1"># Logger::TRACE = Logger::MAX_LEVEL</span>
+</pre></div>
+</div>
+<p>Fragment kodu <tt class="docutils literal"><span class="pre">logger.rb</span></tt></p>
+<div class="highlight-ruby"><div class="highlight"><pre><span class="k">module</span> <span class="nn">Capistrano</span>
+  <span class="k">class</span> <span class="nc">Logger</span> <span class="c1">#:nodoc:</span>
+    <span class="kp">attr_accessor</span> <span class="ss">:level</span>
+    <span class="kp">attr_reader</span>   <span class="ss">:device</span>
+
+    <span class="no">IMPORTANT</span> <span class="o">=</span> <span class="mi">0</span>
+    <span class="no">INFO</span>      <span class="o">=</span> <span class="mi">1</span>
+    <span class="no">DEBUG</span>     <span class="o">=</span> <span class="mi">2</span>
+    <span class="no">TRACE</span>     <span class="o">=</span> <span class="mi">3</span>
+
+    <span class="no">MAX_LEVEL</span> <span class="o">=</span> <span class="mi">3</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="przykladowy-wynik-ustawien">
+<h2>8.2. Przykładowy wynik ustawień<a class="headerlink" href="#przykladowy-wynik-ustawien" title="Stały odnośnik do tego nagłówka">¶</a></h2>
+<div class="highlight-ruby"><div class="highlight"><pre><span class="n">logger</span><span class="o">.</span><span class="n">level</span> <span class="o">=</span> <span class="ss">Logger</span><span class="p">:</span><span class="ss">:IMPORTANT</span>
+</pre></div>
+</div>
+<div class="highlight-none"><div class="highlight"><pre>--&gt; Updating code base with copy strategy
+--&gt; Creating cache directory................................V
+--&gt; Creating symlinks for shared directories................V
+--&gt; Creating symlinks for shared files......................V
+--&gt; Normalizing asset timestamps............................V
+--&gt; Downloading Composer....................................V
+</pre></div>
+</div>
+<div class="highlight-ruby"><div class="highlight"><pre><span class="n">logger</span><span class="o">.</span><span class="n">level</span> <span class="o">=</span> <span class="ss">Logger</span><span class="p">:</span><span class="ss">:INFO</span><span class="sb">`</span>
+</pre></div>
+</div>
+<div class="highlight-none"><div class="highlight"><pre> ** sftp upload parameters.yml -&gt; /d0/www/platform-integration/shared/app/config/parameters.yml
+ ** transaction: start
+--&gt; Updating code base with copy strategy
+ ** sftp upload /tmp/20140319145926.tar.gz -&gt; /tmp/20140319145926.tar.gz
+--&gt; Creating cache directory
+--&gt; Creating symlinks for shared directories
+--&gt; Creating symlinks for shared files
+--&gt; Normalizing asset timestamps
+--&gt; Downloading Composer
+ ** [out :: myspec.pl] #!/usr/bin/env php
+ ** [out :: myspec.pl] Some settings on your machine may cause stability issues with Composer.
+ ** [out :: myspec.pl] If you encounter issues, try to change the following:
+ ** [out :: myspec.pl]
+ ** [out :: myspec.pl] Your PHP (5.3.3-7+squeeze14) is quite old, upgrading to PHP 5.3.4 or higher is recommended.
+ ** [out :: myspec.pl] Composer works with 5.3.2+ for most people, but there might be edge case issues.
+ ** [out :: myspec.pl]
+ ** [out :: myspec.pl] Downloading...
+ ** [out :: myspec.pl]
+ ** [out :: myspec.pl] Composer successfully installed to: /d0/www/platform-integration/releases/20140319145926/composer.phar
+ ** [out :: myspec.pl]
+ ** [out :: myspec.pl] Use it: php composer.phar
+--&gt; Updating Composer dependencies
+ ** [out :: myspec.pl] Loading composer repositories with package information
+ ** [out :: myspec.pl] Updating dependencies
+</pre></div>
+</div>
+<div class="highlight-ruby"><div class="highlight"><pre><span class="n">logger</span><span class="o">.</span><span class="n">level</span> <span class="o">=</span> <span class="ss">Logger</span><span class="p">:</span><span class="ss">:DEBUG</span>
+</pre></div>
+</div>
+<div class="highlight-none"><div class="highlight"><pre>  * 2014-03-19 16:00:41 executing `deploy&#39;
+  * 2014-03-19 16:00:41 executing `upload_parameters&#39;
+  * executing &quot;mkdir -p /d0/www/platform-integration/shared/app/config&quot;
+ ** sftp upload parameters.yml -&gt; /d0/www/platform-integration/shared/app/config/parameters.yml
+  * sftp upload complete
+  * 2014-03-19 16:00:41 executing `deploy:update&#39;
+ ** transaction: start
+  * 2014-03-19 16:00:41 executing `deploy:update_code&#39;
+--&gt; Updating code base with copy strategy
+  * getting (via checkout) revision cc301318ff9b560edd494a57db6c66ea95c878c7 to /tmp/20140319150041
+  * processing exclusions...
+  * Compressing /tmp/20140319150041 to /tmp/20140319150041.tar.gz
+ ** sftp upload /tmp/20140319150041.tar.gz -&gt; /tmp/20140319150041.tar.gz
+  * sftp upload complete
+  * executing &quot;cd /d0/www/platform-integration/releases &amp;&amp; tar xzf /tmp/20140319150041.tar.gz &amp;&amp; rm /tmp/20140319150041.tar.gz&quot;
+  * 2014-03-19 16:00:44 executing `deploy:finalize_update&#39;
+  * executing &quot;chmod -R g+w /d0/www/platform-integration/releases/20140319150041&quot;
+--&gt; Creating cache directory
+  * executing &quot;sh -c &#39;if [ -d /d0/www/platform-integration/releases/20140319150041/app/cache ] ; then rm -rf /d0/www/platform-integration/releases/20140319150041/app/cache; fi&#39;&quot;
+  * executing &quot;sh -c &#39;mkdir -p /d0/www/platform-integration/releases/20140319150041/app/cache &amp;&amp; chmod -R 0777 /d0/www/platform-integration/releases/20140319150041/app/cache&#39;&quot;
+  * executing &quot;chmod -R g+w /d0/www/platform-integration/releases/20140319150041/app/cache&quot;
+  * 2014-03-19 16:00:44 executing `deploy:share_childs&#39;
+--&gt; Creating symlinks for shared directories
+  * executing &quot;mkdir -p /d0/www/platform-integration/shared/app/logs&quot;
+  * executing &quot;sh -c &#39;if [ -d /d0/www/platform-integration/releases/20140319150041/app/logs ] ; then rm -rf /d0/www/platform-integration/releases/20140319150041/app/logs; fi&#39;&quot;
+  * executing &quot;ln -nfs /d0/www/platform-integration/shared/app/logs /d0/www/platform-integration/releases/20140319150041/app/logs&quot;
+  * executing &quot;mkdir -p /d0/www/platform-integration/shared/web/uploads&quot;
+  * executing &quot;sh -c &#39;if [ -d /d0/www/platform-integration/releases/20140319150041/web/uploads ] ; then rm -rf /d0/www/platform-integration/releases/20140319150041/web/uploads; fi&#39;&quot;
+  * executing &quot;ln -nfs /d0/www/platform-integration/shared/web/uploads /d0/www/platform-integration/releases/20140319150041/web/uploads&quot;
+  * executing &quot;mkdir -p /d0/www/platform-integration/shared/vendor&quot;
+  * executing &quot;sh -c &#39;if [ -d /d0/www/platform-integration/releases/20140319150041/vendor ] ; then rm -rf /d0/www/platform-integration/releases/20140319150041/vendor; fi&#39;&quot;
+  * executing &quot;ln -nfs /d0/www/platform-integration/shared/vendor /d0/www/platform-integration/releases/20140319150041/vendor&quot;
+--&gt; Creating symlinks for shared files
+  * executing &quot;mkdir -p /d0/www/platform-integration/shared/app/config&quot;
+  * executing &quot;touch /d0/www/platform-integration/shared/app/config/parameters.yml&quot;
+  * executing &quot;ln -nfs /d0/www/platform-integration/shared/app/config/parameters.yml /d0/www/platform-integration/releases/20140319150041/app/config/parameters.yml&quot;
+--&gt; Normalizing asset timestamps
+  * executing &quot;find /d0/www/platform-integration/releases/20140319150041/web/css /d0/www/platform-integration/releases/20140319150041/web/images /d0/www/platform-integration/releases/20140319150041/web/js -exec touch -t 201403191500.45 {} &#39;;&#39; &amp;&gt; /dev/null || true&quot;
+  * 2014-03-19 16:00:45 executing `symfony:composer:update&#39;
+  * 2014-03-19 16:00:45 executing `symfony:composer:get&#39;
+  * executing &quot;if [ -e /d0/www/platform-integration/releases/20140319150041/composer.phar ]; then echo &#39;true&#39;; fi&quot;
+--&gt; Downloading Composer
+  * executing &quot;sh -c &#39;cd /d0/www/platform-integration/releases/20140319150041 &amp;&amp; curl -s http://getcomposer.org/installer | php&#39;&quot;
+ ** [out :: myspec.pl] #!/usr/bin/env php
+ ** [out :: myspec.pl] Some settings on your machine may cause stability issues with Composer.
+ ** [out :: myspec.pl] If you encounter issues, try to change the following:
+ ** [out :: myspec.pl]
+ ** [out :: myspec.pl] Your PHP (5.3.3-7+squeeze14) is quite old, upgrading to PHP 5.3.4 or higher is recommended.
+ ** [out :: myspec.pl] Composer works with 5.3.2+ for most people, but there might be edge case issues.
+ ** [out :: myspec.pl]
+ ** [out :: myspec.pl] Downloading...
+ ** [out :: myspec.pl]
+ ** [out :: myspec.pl] Composer successfully installed to: /d0/www
+</pre></div>
+</div>
+<div class="highlight-ruby"><div class="highlight"><pre><span class="n">logger</span><span class="o">.</span><span class="n">level</span> <span class="o">=</span> <span class="ss">Logger</span><span class="p">:</span><span class="ss">:TRACE</span>
+<span class="n">logger</span><span class="o">.</span><span class="n">level</span> <span class="o">=</span> <span class="ss">Logger</span><span class="p">:</span><span class="ss">:MAX_LEVEL</span> <span class="c1"># Logger::TRACE jest równy Logger::MAX_LEVEL</span>
+</pre></div>
+</div>
+<div class="highlight-none"><div class="highlight"><pre>  * 2014-03-19 16:02:46 executing `deploy&#39;
+        triggering before callbacks for `deploy&#39;
+  * 2014-03-19 16:02:46 executing `upload_parameters&#39;
+  * executing &quot;mkdir -p /d0/www/platform-integration/shared/app/config&quot;
+        servers: [&quot;myspec.pl&quot;]
+        [myspec.pl] executing command
+        command finished in 24ms
+        servers: [&quot;myspec.pl&quot;]
+ ** sftp upload parameters.yml -&gt; /d0/www/platform-integration/shared/app/config/parameters.yml
+        [myspec.pl] /d0/www/platform-integration/shared/app/config/parameters.yml
+        [myspec.pl] done
+  * sftp upload complete
+  * 2014-03-19 16:02:46 executing `deploy:update&#39;
+ ** transaction: start
+  * 2014-03-19 16:02:46 executing `deploy:update_code&#39;
+        triggering before callbacks for `deploy:update_code&#39;
+--&gt; Updating code base with copy strategy
+        executing locally: &quot;git ls-remote git@ses-support.net:/home/git/repos/platform-integration.git HEAD&quot;
+        command finished in 91ms
+  * getting (via checkout) revision cc301318ff9b560edd494a57db6c66ea95c878c7 to /tmp/20140319150246
+        executing locally: git clone -q git@ses-support.net:/home/git/repos/platform-integration.git /tmp/20140319150246 &amp;&amp; cd /tmp/20140319150246 &amp;&amp; git checkout -q -b deploy cc301318ff9b560edd494a57db6c66ea95c878c7 &amp;&amp; git submodule -q init &amp;&amp; git submodule -q sync &amp;&amp; export GIT_RECURSIVE=$([ ! &quot;`git --version`&quot; \&lt; &quot;git version 1.6.5&quot; ] &amp;&amp; echo --recursive) &amp;&amp; git submodule -q update --init $GIT_RECURSIVE
+        command finished in 2742ms
+  * processing exclusions...
+  * Compressing /tmp/20140319150246 to /tmp/20140319150246.tar.gz
+        executing locally: tar czf 20140319150246.tar.gz 20140319150246
+        command finished in 38ms
+        servers: [&quot;myspec.pl&quot;]
+ ** sftp upload /tmp/20140319150246.tar.gz -&gt; /tmp/20140319150246.tar.gz
+        [myspec.pl] /tmp/20140319150246.tar.gz
+        [myspec.pl] done
+  * sftp upload complete
+  * executing &quot;cd /d0/www/platform-integration/releases &amp;&amp; tar xzf /tmp/20140319150246.tar.gz &amp;&amp; rm /tmp/20140319150246.tar.gz&quot;
+        servers: [&quot;myspec.pl&quot;]
+        [myspec.pl] executing command
+        command finished in 52ms
+  * 2014-03-19 16:02:49 executing `deploy:finalize_update&#39;
+  * executing &quot;chmod -R g+w /d0/www/platform-integration/releases/20140319150246&quot;
+        servers: [&quot;myspec.pl&quot;]
+        [myspec.pl] executing command
+        command finished in 23ms
+</pre></div>
+</div>
+</div>
+<div class="section" id="zapis-loga-do-pliku">
+<h2>8.3. Zapis loga do pliku<a class="headerlink" href="#zapis-loga-do-pliku" title="Stały odnośnik do tego nagłówka">¶</a></h2>
+<div class="highlight-ruby"><div class="highlight"><pre><span class="n">log_file</span> <span class="o">=</span> <span class="s2">&quot;deployment.log&quot;</span>
+<span class="nb">self</span><span class="o">.</span><span class="n">logger</span> <span class="o">=</span> <span class="no">Logger</span><span class="o">.</span><span class="n">new</span><span class="p">(</span><span class="ss">:output</span> <span class="o">=&gt;</span> <span class="n">log_file</span><span class="p">)</span>
+
+<span class="n">logger</span><span class="o">.</span><span class="n">level</span> <span class="o">=</span> <span class="ss">Logger</span><span class="p">:</span><span class="ss">:DEBUG</span>
+</pre></div>
+</div>
+</div>
+</div>
+
+
+          </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related">
+      <h3>Nawigacja</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="Indeks ogólny"
+             >indeks</a></li>
+        <li class="right" >
+          <a href="capifony.html" title="9. Capifony - Capistrano dla Symfony"
+             >dalej</a> |</li>
+        <li class="right" >
+          <a href="scm.html" title="7. Source Control Management"
+             >wstecz</a> |</li>
+        <li><a href="../index.html">Wdrażanie (deployment) projektów Symfony2 przy pomocy Capifony 1.0 - dokumentacja</a> &raquo;</li> 
+      </ul>
+    </div>
+    <div class="footer">
+        &copy; Copyright 2014, Jacek Siciarek.
+      Utworzone przy pomocy <a href="http://sphinx-doc.org/">Sphinx</a>'a 1.2b3.
+    </div>
+  </body>
+</html>

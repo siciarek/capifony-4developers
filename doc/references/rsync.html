@@ -1,0 +1,189 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>3. Narzędzie do synchronizacji katalogów rsync &mdash; Wdrażanie (deployment) projektów Symfony2 przy pomocy Capifony 1.0 - dokumentacja</title>
+    
+    <link rel="stylesheet" href="../_static/nature.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    <link rel="stylesheet" href="http://symfony.com/css/compiled/all.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../',
+        VERSION:     '1.0',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="http://symfony.com/js/all.js"></script>
+    <link rel="top" title="Wdrażanie (deployment) projektów Symfony2 przy pomocy Capifony 1.0 - dokumentacja" href="../index.html" />
+    <link rel="next" title="4. Capistrano - Swiss Army Knife" href="capistrano.html" />
+    <link rel="prev" title="2. Strategie wdrożeniowe" href="deployment.strategies.html" /> 
+  </head>
+  <body>
+    <div class="related">
+      <h3>Nawigacja</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="Indeks ogólny"
+             accesskey="I">indeks</a></li>
+        <li class="right" >
+          <a href="capistrano.html" title="4. Capistrano - Swiss Army Knife"
+             accesskey="N">dalej</a> |</li>
+        <li class="right" >
+          <a href="deployment.strategies.html" title="2. Strategie wdrożeniowe"
+             accesskey="P">wstecz</a> |</li>
+        <li><a href="../index.html">Wdrażanie (deployment) projektów Symfony2 przy pomocy Capifony 1.0 - dokumentacja</a> &raquo;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+          <div class="body">
+            
+  <div class="section" id="narzedzie-do-synchronizacji-katalogow-rsync">
+<h1>3. Narzędzie do synchronizacji katalogów <tt class="docutils literal"><span class="pre">rsync</span></tt><a class="headerlink" href="#narzedzie-do-synchronizacji-katalogow-rsync" title="Stały odnośnik do tego nagłówka">¶</a></h1>
+<p>Rsync jest aplikacją do synchronizacji katalogów na sewerze lokalnym i zdalnym, w obu kierunkach.</p>
+<p>Strona projektu <a class="reference external" href="http://rsync.samba.org">http://rsync.samba.org</a>.</p>
+<p>Szczegółowa dokumentacja <a class="reference external" href="http://rsync.samba.org/ftp/rsync/rsync.html">http://rsync.samba.org/ftp/rsync/rsync.html</a>.</p>
+<div class="section" id="przyklad-sparametryzowanej-komendy-rsync">
+<h2>3.1. Przykład sparametryzowanej komendy <tt class="docutils literal"><span class="pre">rsync</span></tt><a class="headerlink" href="#przyklad-sparametryzowanej-komendy-rsync" title="Stały odnośnik do tego nagłówka">¶</a></h2>
+<div class="highlight-bash"><div class="highlight"><pre><span class="nv">SOURCE</span><span class="o">=</span>.
+<span class="nv">TARGET</span><span class="o">=</span>dude@target.server.com:/var/www/target.server.com
+
+rsync <span class="se">\</span>
+--itemize-changes <span class="se">\</span>
+--verbose  <span class="se">\</span>
+--human-readable <span class="se">\</span>
+--omit-dir-times <span class="se">\</span>
+--times <span class="se">\</span>
+--perms <span class="se">\</span>
+--progress <span class="se">\</span>
+--stats <span class="se">\</span>
+--compress <span class="se">\</span>
+--recursive <span class="se">\</span>
+--links <span class="se">\</span>
+--delete <span class="se">\</span>
+--exclude-from<span class="o">=</span><span class="s2">&quot;config/rsync_exclude.txt&quot;</span> <span class="se">\</span>
+--dry-run <span class="se">\</span>
+<span class="nv">$SOURCE</span> <span class="nv">$TARGET</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="przykladowy-wynik-dzialania-komendy-rsync">
+<h2>3.2. Przykładowy wynik działania komendy <tt class="docutils literal"><span class="pre">rsync</span></tt><a class="headerlink" href="#przykladowy-wynik-dzialania-komendy-rsync" title="Stały odnośnik do tego nagłówka">¶</a></h2>
+<div class="highlight-none"><div class="highlight"><pre>sending incremental file list
+.L..t...... lib/doctrine/linked_schema.yml -&gt; ../../data/linked_schema.yml
+*deleting   web/apc.php
+&lt;f.st...... web/import.php
+
+Number of files: 10047
+Number of files transferred: 1
+Total file size: 150.32M bytes
+Total transferred file size: 2.76K bytes
+Literal data: 0 bytes
+Matched data: 0 bytes
+File list size: 210.08K
+File list generation time: 0.001 seconds
+File list transfer time: 0.000 seconds
+Total bytes sent: 211.97K
+Total bytes received: 1.49K
+
+sent 211.97K bytes  received 1.49K bytes  9.08K bytes/sec
+total size is 150.32M  speedup is 704.24 (DRY RUN)
+</pre></div>
+</div>
+</div>
+<div class="section" id="jak-rozumiec-format-opisu-zmiany">
+<h2>3.3. Jak rozumieć format opisu zmiany<a class="headerlink" href="#jak-rozumiec-format-opisu-zmiany" title="Stały odnośnik do tego nagłówka">¶</a></h2>
+<div class="highlight-none"><div class="highlight"><pre>*deleting   web/apc.php
+&lt;f+++++++++ newfile.txt
+.L..t...... lib/doctrine/linked_schema.yml -&gt; ../../data/linked_schema.yml
+&lt;f.st...... web/import.php
+</pre></div>
+</div>
+<p>Format opisu</p>
+<div class="highlight-none"><div class="highlight"><pre>YXcstpoguax
+</pre></div>
+</div>
+<p>Gdzie</p>
+<dl class="docutils">
+<dt><strong>Y</strong></dt>
+<dd><div class="first last line-block">
+<div class="line"><strong>&lt;</strong> - plik został wysłany na <strong>serwer zdalny</strong>.</div>
+<div class="line"><strong>&gt;</strong> - plik został pobrany ze <strong>zdalnego serwera</strong>.</div>
+<div class="line"><strong>c</strong> - element został lokalnie utworzony np. nowy katalog, lub link symboliczny.</div>
+<div class="line"><strong>h</strong> - oznacza, że dany element jest twardym linkiem (wymaga argumentu <tt class="docutils literal"><span class="pre">--hard-links</span></tt>).</div>
+<div class="line"><strong>.</strong> - plik nie został zmieniony, ale zmieniły się inne parametry pliku.</div>
+<div class="line"><strong>*</strong> - prefiks dalszej informacji (np. &#8220;deleting&#8221;).</div>
+</div>
+</dd>
+<dt><strong>X</strong></dt>
+<dd><div class="first last line-block">
+<div class="line"><strong>f</strong> - plik</div>
+<div class="line"><strong>d</strong> - katalog</div>
+<div class="line"><strong>L</strong> - link symboliczny</div>
+<div class="line"><strong>D</strong> - urządzenie</div>
+<div class="line"><strong>S</strong> - plik specjalny (np. nazwane gniazdo (named socket) lub kolejka fifo).</div>
+</div>
+</dd>
+</dl>
+<p>Pozostałe znaki są literami opisującymi zmienione atrybuty pliku lub <strong>&#8221;.&#8221;</strong>, jeżeli dany atrybut nie został zmieniony, poza trzema wyjątkami:</p>
+<blockquote>
+<div><ul class="simple">
+<li>nowoutworzony plik zamienia każdą z liter na znak <strong>&#8220;+&#8221;</strong></li>
+<li>identyczny element zmienia kropki na spacje</li>
+<li>nieznany atrybut zmieniany jest na znak <strong>&#8221;?&#8221;</strong> (to się może zdarzyć jeżeli na zdalnym serwerze jest starsza wersja <tt class="docutils literal"><span class="pre">rsync</span></tt>)</li>
+</ul>
+</div></blockquote>
+<dl class="docutils">
+<dt><strong>cstpoguax</strong></dt>
+<dd><div class="first last line-block">
+<div class="line">A c means either that a regular file has a different checksum (requires &#8211;checksum) or that a symlink, device, or special file has a changed value. Note that if you are sending files to an rsync prior to 3.0.1, this change flag will be present only for checksum-differing regular files.</div>
+<div class="line">A s means the size of a regular file is different and will be updated by the file transfer.</div>
+<div class="line">A t means the modification time is different and is being updated to the sender&#8217;s value (requires &#8211;times). An alternate value of T means that the modification time will be set to the transfer time, which happens when a file/symlink/device is updated without &#8211;times and when a symlink is changed and the receiver can&#8217;t set its time. (Note: when using an rsync 3.0.0 client, you might see the s flag combined with t instead of the proper T flag for this time-setting failure.)</div>
+<div class="line">A p means the permissions are different and are being updated to the sender&#8217;s value (requires &#8211;perms).</div>
+<div class="line">An o means the owner is different and is being updated to the sender&#8217;s value (requires &#8211;owner and super-user privileges).</div>
+<div class="line">A g means the group is different and is being updated to the sender&#8217;s value (requires &#8211;group and the authority to set the group).</div>
+<div class="line">The u slot is reserved for future use.</div>
+<div class="line">The a means that the ACL information changed.</div>
+<div class="line">The x means that the extended attribute information changed.</div>
+</div>
+</dd>
+</dl>
+<p>Można użyć argumentu <tt class="docutils literal"><span class="pre">--out-format</span></tt> aby dostosować wyjście do swoich potrzeb.</p>
+</div>
+</div>
+
+
+          </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related">
+      <h3>Nawigacja</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="Indeks ogólny"
+             >indeks</a></li>
+        <li class="right" >
+          <a href="capistrano.html" title="4. Capistrano - Swiss Army Knife"
+             >dalej</a> |</li>
+        <li class="right" >
+          <a href="deployment.strategies.html" title="2. Strategie wdrożeniowe"
+             >wstecz</a> |</li>
+        <li><a href="../index.html">Wdrażanie (deployment) projektów Symfony2 przy pomocy Capifony 1.0 - dokumentacja</a> &raquo;</li> 
+      </ul>
+    </div>
+    <div class="footer">
+        &copy; Copyright 2014, Jacek Siciarek.
+      Utworzone przy pomocy <a href="http://sphinx-doc.org/">Sphinx</a>'a 1.2b3.
+    </div>
+  </body>
+</html>

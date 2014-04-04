@@ -1,0 +1,133 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>7. Source Control Management &mdash; Wdrażanie (deployment) projektów Symfony2 przy pomocy Capifony 1.0 - dokumentacja</title>
+    
+    <link rel="stylesheet" href="../_static/nature.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    <link rel="stylesheet" href="http://symfony.com/css/compiled/all.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../',
+        VERSION:     '1.0',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="http://symfony.com/js/all.js"></script>
+    <link rel="top" title="Wdrażanie (deployment) projektów Symfony2 przy pomocy Capifony 1.0 - dokumentacja" href="../index.html" />
+    <link rel="next" title="8. Zakres informacji zwracany przez cap" href="logger.html" />
+    <link rel="prev" title="6. Inicjalizacja środowiska produkcyjnego aplikacji" href="setup.html" /> 
+  </head>
+  <body>
+    <div class="related">
+      <h3>Nawigacja</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="Indeks ogólny"
+             accesskey="I">indeks</a></li>
+        <li class="right" >
+          <a href="logger.html" title="8. Zakres informacji zwracany przez cap"
+             accesskey="N">dalej</a> |</li>
+        <li class="right" >
+          <a href="setup.html" title="6. Inicjalizacja środowiska produkcyjnego aplikacji"
+             accesskey="P">wstecz</a> |</li>
+        <li><a href="../index.html">Wdrażanie (deployment) projektów Symfony2 przy pomocy Capifony 1.0 - dokumentacja</a> &raquo;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+          <div class="body">
+            
+  <div class="section" id="source-control-management">
+<h1>7. Source Control Management<a class="headerlink" href="#source-control-management" title="Stały odnośnik do tego nagłówka">¶</a></h1>
+<p>Przykładowa konfiguracja w <tt class="docutils literal"><span class="pre">Capfile</span></tt></p>
+<div class="highlight-ruby"><div class="highlight"><pre><span class="n">set</span> <span class="ss">:application</span><span class="p">,</span>   <span class="s2">&quot;myapp&quot;</span>
+<span class="n">set</span> <span class="ss">:user</span><span class="p">,</span>          <span class="s2">&quot;dude&quot;</span>
+<span class="n">set</span> <span class="ss">:domain</span><span class="p">,</span>        <span class="s2">&quot;target.server.com&quot;</span>
+<span class="n">set</span> <span class="ss">:repository</span><span class="p">,</span>    <span class="s2">&quot;git@myscm.server.net:/home/git/repos/</span><span class="si">#{</span><span class="n">application</span><span class="si">}</span><span class="s2">.git&quot;</span>
+<span class="n">set</span> <span class="ss">:deploy_to</span><span class="p">,</span>     <span class="s2">&quot;/var/www/</span><span class="si">#{</span><span class="n">domain</span><span class="si">}</span><span class="s2">&quot;</span>
+
+<span class="n">set</span> <span class="ss">:scm</span><span class="p">,</span>        <span class="ss">:git</span>
+<span class="n">set</span> <span class="ss">:deploy_via</span><span class="p">,</span> <span class="ss">:copy</span>
+</pre></div>
+</div>
+<div class="section" id="wartosci-scm">
+<h2>7.1. Wartości <tt class="docutils literal"><span class="pre">:scm</span></tt><a class="headerlink" href="#wartosci-scm" title="Stały odnośnik do tego nagłówka">¶</a></h2>
+<dl class="docutils">
+<dt><strong>:none</strong></dt>
+<dd>System kontroli wersji nie jest stosowany</dd>
+<dt><strong>:git</strong></dt>
+<dd>GIT <a class="reference external" href="http://git-scm.com">http://git-scm.com</a></dd>
+<dt><strong>:accurev</strong></dt>
+<dd>AccuRev <a class="reference external" href="http://www.accurev.com">http://www.accurev.com</a></dd>
+<dt><strong>:bzr</strong></dt>
+<dd>Bazaar <a class="reference external" href="http://bazaar.canonical.com">http://bazaar.canonical.com</a></dd>
+<dt><strong>:cvs</strong></dt>
+<dd>CVS <a class="reference external" href="http://www.nongnu.org/cvs/">http://www.nongnu.org/cvs/</a></dd>
+<dt><strong>:darcs</strong></dt>
+<dd>Darcs <a class="reference external" href="http://darcs.net">http://darcs.net</a></dd>
+<dt><strong>:subversion</strong></dt>
+<dd>SVN <a class="reference external" href="http://subversion.tigris.org">http://subversion.tigris.org</a>, <a class="reference external" href="http://subversion.apache.org">http://subversion.apache.org</a></dd>
+<dt><strong>:mercurial</strong></dt>
+<dd>Mercurial <a class="reference external" href="http://mercurial.selenic.com">http://mercurial.selenic.com</a></dd>
+<dt><strong>:perforce</strong></dt>
+<dd>PERFORCE <a class="reference external" href="http://www.perforce.com">http://www.perforce.com</a></dd>
+</dl>
+</div>
+<div class="section" id="wartosci-deploy-via">
+<h2>7.2. Wartości <tt class="docutils literal"><span class="pre">:deploy_via</span></tt><a class="headerlink" href="#wartosci-deploy-via" title="Stały odnośnik do tego nagłówka">¶</a></h2>
+<dl class="docutils">
+<dt><strong>:copy</strong></dt>
+<dd>Na <strong>serwerze źródłowym</strong> wykonuje eksport wersji do katalogu <tt class="docutils literal"><span class="pre">/tmp</span></tt>, następnie kopiuje jego zawartość
+na <strong>serwer produkcyjny</strong>. Preferowane użycie, nie zadziała jak serwer źródłowy i produkcyjny jest tą samą maszyną.</dd>
+<dt><strong>:checkout</strong></dt>
+<dd>Wykonuje operację <tt class="docutils literal"><span class="pre">checkout</span></tt> na <strong>serwerze produkcyjnym</strong>, nie zalecany, ze względu na możliwość nieautoryzowanej
+modyfikacji zawartości repozytorium.</dd>
+<dt><strong>:export</strong></dt>
+<dd>Wykonuje operację <tt class="docutils literal"><span class="pre">export</span></tt> na <strong>serwerze produkcyjnym</strong>.</dd>
+<dt><strong>:remote_cache</strong></dt>
+<dd>Wykonuje <tt class="docutils literal"><span class="pre">git</span> <span class="pre">pull</span></tt> (lub odpowiednik tej komendy w innych <tt class="docutils literal"><span class="pre">SCM</span></tt>) w katalogu <tt class="docutils literal"><span class="pre">shared/cached_copy</span></tt>,
+zamiast zaciągania całego repozytorium. Ma znaczenie jeżeli zależy nam na przyśpieszeniu procesu wdrożenia.
+Jeżeli w czasie wdrożenia pojawią się problemy należy usunąć katalog <tt class="docutils literal"><span class="pre">shared/cached_copy</span></tt>.</dd>
+<dt><strong>:rsync_with_remote_cache</strong></dt>
+<dd>W tym przypadku <tt class="docutils literal"><span class="pre">rsync</span></tt> utworzy katalog na <strong>serwerze produkcyjnym</strong> i będzie go synchronizował ze zmianami w repozytorium.
+Wymaga instalacji dodatkowego <tt class="docutils literal"><span class="pre">gema</span></tt>.</dd>
+</dl>
+</div>
+</div>
+
+
+          </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related">
+      <h3>Nawigacja</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="Indeks ogólny"
+             >indeks</a></li>
+        <li class="right" >
+          <a href="logger.html" title="8. Zakres informacji zwracany przez cap"
+             >dalej</a> |</li>
+        <li class="right" >
+          <a href="setup.html" title="6. Inicjalizacja środowiska produkcyjnego aplikacji"
+             >wstecz</a> |</li>
+        <li><a href="../index.html">Wdrażanie (deployment) projektów Symfony2 przy pomocy Capifony 1.0 - dokumentacja</a> &raquo;</li> 
+      </ul>
+    </div>
+    <div class="footer">
+        &copy; Copyright 2014, Jacek Siciarek.
+      Utworzone przy pomocy <a href="http://sphinx-doc.org/">Sphinx</a>'a 1.2b3.
+    </div>
+  </body>
+</html>

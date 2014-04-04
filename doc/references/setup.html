@@ -1,0 +1,153 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>6. Inicjalizacja środowiska produkcyjnego aplikacji &mdash; Wdrażanie (deployment) projektów Symfony2 przy pomocy Capifony 1.0 - dokumentacja</title>
+    
+    <link rel="stylesheet" href="../_static/nature.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    <link rel="stylesheet" href="http://symfony.com/css/compiled/all.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../',
+        VERSION:     '1.0',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="http://symfony.com/js/all.js"></script>
+    <link rel="top" title="Wdrażanie (deployment) projektów Symfony2 przy pomocy Capifony 1.0 - dokumentacja" href="../index.html" />
+    <link rel="next" title="7. Source Control Management" href="scm.html" />
+    <link rel="prev" title="5. Sprawdzanie ustawień na serwerze lokalnym i zdalnym" href="check.html" /> 
+  </head>
+  <body>
+    <div class="related">
+      <h3>Nawigacja</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="Indeks ogólny"
+             accesskey="I">indeks</a></li>
+        <li class="right" >
+          <a href="scm.html" title="7. Source Control Management"
+             accesskey="N">dalej</a> |</li>
+        <li class="right" >
+          <a href="check.html" title="5. Sprawdzanie ustawień na serwerze lokalnym i zdalnym"
+             accesskey="P">wstecz</a> |</li>
+        <li><a href="../index.html">Wdrażanie (deployment) projektów Symfony2 przy pomocy Capifony 1.0 - dokumentacja</a> &raquo;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+          <div class="body">
+            
+  <div class="section" id="inicjalizacja-srodowiska-produkcyjnego-aplikacji">
+<h1>6. Inicjalizacja środowiska produkcyjnego aplikacji<a class="headerlink" href="#inicjalizacja-srodowiska-produkcyjnego-aplikacji" title="Stały odnośnik do tego nagłówka">¶</a></h1>
+<p>Przykładowa konfiguracja w <tt class="docutils literal"><span class="pre">Capfile</span></tt></p>
+<div class="highlight-ruby"><div class="highlight"><pre><span class="n">set</span> <span class="ss">:application</span><span class="p">,</span>   <span class="s2">&quot;myapp&quot;</span>
+<span class="n">set</span> <span class="ss">:user</span><span class="p">,</span>          <span class="s2">&quot;dude&quot;</span>
+<span class="n">set</span> <span class="ss">:domain</span><span class="p">,</span>        <span class="s2">&quot;target.server.com&quot;</span>
+<span class="n">set</span> <span class="ss">:repository</span><span class="p">,</span>    <span class="s2">&quot;git@myscm.server.net:/home/git/repos/</span><span class="si">#{</span><span class="n">application</span><span class="si">}</span><span class="s2">.git&quot;</span>
+<span class="n">set</span> <span class="ss">:deploy_to</span><span class="p">,</span>     <span class="s2">&quot;/var/www/</span><span class="si">#{</span><span class="n">domain</span><span class="si">}</span><span class="s2">&quot;</span>
+
+<span class="n">role</span> <span class="ss">:app</span><span class="p">,</span>          <span class="ss">:domain</span><span class="p">,</span> <span class="ss">:primary</span> <span class="o">=&gt;</span> <span class="kp">true</span>  <span class="c1"># This may be the same as your ``Web`` server</span>
+<span class="n">role</span> <span class="ss">:web</span><span class="p">,</span>          <span class="ss">:domain</span>                    <span class="c1"># Your HTTP server, Apache/etc</span>
+</pre></div>
+</div>
+<div class="section" id="przygotowanie-srodowiska-produkcyjnego">
+<h2>6.1. Przygotowanie środowiska produkcyjnego<a class="headerlink" href="#przygotowanie-srodowiska-produkcyjnego" title="Stały odnośnik do tego nagłówka">¶</a></h2>
+<div class="highlight-bash"><div class="highlight"><pre><span class="nv">$ </span>cap deploy:setup
+</pre></div>
+</div>
+<div class="highlight-none"><div class="highlight"><pre>* 2014-04-04 12:54:57 executing `deploy:setup&#39;
+* executing multiple commands in parallel
+  -&gt; &quot;else&quot; :: &quot;sudo -p &#39;sudo password: &#39; mkdir -p /var/www/target.server.com /var/www/target.server.com/releases /var/www/target.server.com/shared /var/www/target.server.com/shared/system /var/www/target.server.com/shared/log /var/www/target.server.com/shared/pids&quot;
+  -&gt; &quot;else&quot; :: &quot;sudo -p &#39;sudo password: &#39; mkdir -p /var/www/target.server.com /var/www/target.server.com/releases /var/www/target.server.com/shared /var/www/target.server.com/shared/system /var/www/target.server.com/shared/log /var/www/target.server.com/shared/pids&quot;
+  -&gt; &quot;else&quot; :: &quot;sudo -p &#39;sudo password: &#39; mkdir -p /var/www/target.server.com /var/www/target.server.com/releases /var/www/target.server.com/shared /var/www/target.server.com/shared/system /var/www/target.server.com/shared/log /var/www/target.server.com/shared/pids&quot;
+  -&gt; &quot;else&quot; :: &quot;sudo -p &#39;sudo password: &#39; mkdir -p /var/www/target.server.com /var/www/target.server.com/releases /var/www/target.server.com/shared /var/www/target.server.com/shared/system /var/www/target.server.com/shared/log /var/www/target.server.com/shared/pids&quot;
+  servers: [&quot;new.ses-control.com&quot;, &quot;platform.ses-support.com&quot;, &quot;integration.sescom.pl&quot;, &quot;hm.ses-control.com&quot;]
+  [integration.sescom.pl] executing command
+  [hm.ses-control.com] executing command
+  [platform.ses-support.com] executing command
+  [new.ses-control.com] executing command
+  command finished in 130ms
+* executing multiple commands in parallel
+  -&gt; &quot;else&quot; :: &quot;sudo -p &#39;sudo password: &#39; chmod g+w /var/www/target.server.com /var/www/target.server.com/releases /var/www/target.server.com/shared /var/www/target.server.com/shared/system /var/www/target.server.com/shared/log /var/www/target.server.com/shared/pids&quot;
+  -&gt; &quot;else&quot; :: &quot;sudo -p &#39;sudo password: &#39; chmod g+w /var/www/target.server.com /var/www/target.server.com/releases /var/www/target.server.com/shared /var/www/target.server.com/shared/system /var/www/target.server.com/shared/log /var/www/target.server.com/shared/pids&quot;
+  -&gt; &quot;else&quot; :: &quot;sudo -p &#39;sudo password: &#39; chmod g+w /var/www/target.server.com /var/www/target.server.com/releases /var/www/target.server.com/shared /var/www/target.server.com/shared/system /var/www/target.server.com/shared/log /var/www/target.server.com/shared/pids&quot;
+  -&gt; &quot;else&quot; :: &quot;sudo -p &#39;sudo password: &#39; chmod g+w /var/www/target.server.com /var/www/target.server.com/releases /var/www/target.server.com/shared /var/www/target.server.com/shared/system /var/www/target.server.com/shared/log /var/www/target.server.com/shared/pids&quot;
+  servers: [&quot;new.ses-control.com&quot;, &quot;platform.ses-support.com&quot;, &quot;integration.sescom.pl&quot;, &quot;hm.ses-control.com&quot;]
+  [integration.sescom.pl] executing command
+  [hm.ses-control.com] executing command
+  [platform.ses-support.com] executing command
+  [new.ses-control.com] executing command
+  command finished in 98ms
+</pre></div>
+</div>
+<p>Jeżeli wszystkie prawa dostępu będą ustawione prawidłowo na <strong>serwerze produkcyjnym</strong> zostanie utworzona poniższa
+struktura katalogów:</p>
+<div class="highlight-none"><div class="highlight"><pre>/var/www/target.server.com
+    |-- releases
+    `-- shared
+</pre></div>
+</div>
+</div>
+<div class="section" id="sprawdzenie-konfiguracji-serwera-produkcyjnego">
+<h2>6.2. Sprawdzenie konfiguracji serwera produkcyjnego<a class="headerlink" href="#sprawdzenie-konfiguracji-serwera-produkcyjnego" title="Stały odnośnik do tego nagłówka">¶</a></h2>
+<div class="highlight-bash"><div class="highlight"><pre>cap deploy:check
+</pre></div>
+</div>
+</div>
+<div class="section" id="przyklad-zawartosci-katalogu-aplikacji-po-kolejnym-wdrozeniu">
+<h2>6.3. Przykład zawartości katalogu aplikacji po kolejnym wdrożeniu<a class="headerlink" href="#przyklad-zawartosci-katalogu-aplikacji-po-kolejnym-wdrozeniu" title="Stały odnośnik do tego nagłówka">¶</a></h2>
+<div class="highlight-none"><div class="highlight"><pre>`-- /var/www/target.server.com
+|-- current -&gt; /var/www/target.server.com/releases/20100512131539
+|-- releases
+|   `-- 20100512131539
+|   `-- 20100509150741
+|   `-- 20100509145325
+`-- shared
+   |-- web
+   |    `-- uploads
+   |-- logs
+   |-- vendors
+   `-- config
+       `-- app
+            `-- parameters.yml
+</pre></div>
+</div>
+</div>
+</div>
+
+
+          </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related">
+      <h3>Nawigacja</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="Indeks ogólny"
+             >indeks</a></li>
+        <li class="right" >
+          <a href="scm.html" title="7. Source Control Management"
+             >dalej</a> |</li>
+        <li class="right" >
+          <a href="check.html" title="5. Sprawdzanie ustawień na serwerze lokalnym i zdalnym"
+             >wstecz</a> |</li>
+        <li><a href="../index.html">Wdrażanie (deployment) projektów Symfony2 przy pomocy Capifony 1.0 - dokumentacja</a> &raquo;</li> 
+      </ul>
+    </div>
+    <div class="footer">
+        &copy; Copyright 2014, Jacek Siciarek.
+      Utworzone przy pomocy <a href="http://sphinx-doc.org/">Sphinx</a>'a 1.2b3.
+    </div>
+  </body>
+</html>

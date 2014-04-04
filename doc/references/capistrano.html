@@ -1,0 +1,289 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>4. Capistrano - Swiss Army Knife &mdash; Wdrażanie (deployment) projektów Symfony2 przy pomocy Capifony 1.0 - dokumentacja</title>
+    
+    <link rel="stylesheet" href="../_static/nature.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    <link rel="stylesheet" href="http://symfony.com/css/compiled/all.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../',
+        VERSION:     '1.0',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="http://symfony.com/js/all.js"></script>
+    <link rel="top" title="Wdrażanie (deployment) projektów Symfony2 przy pomocy Capifony 1.0 - dokumentacja" href="../index.html" />
+    <link rel="next" title="5. Sprawdzanie ustawień na serwerze lokalnym i zdalnym" href="check.html" />
+    <link rel="prev" title="3. Narzędzie do synchronizacji katalogów rsync" href="rsync.html" /> 
+  </head>
+  <body>
+    <div class="related">
+      <h3>Nawigacja</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="Indeks ogólny"
+             accesskey="I">indeks</a></li>
+        <li class="right" >
+          <a href="check.html" title="5. Sprawdzanie ustawień na serwerze lokalnym i zdalnym"
+             accesskey="N">dalej</a> |</li>
+        <li class="right" >
+          <a href="rsync.html" title="3. Narzędzie do synchronizacji katalogów rsync"
+             accesskey="P">wstecz</a> |</li>
+        <li><a href="../index.html">Wdrażanie (deployment) projektów Symfony2 przy pomocy Capifony 1.0 - dokumentacja</a> &raquo;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+          <div class="body">
+            
+  <div class="section" id="capistrano-swiss-army-knife">
+<h1>4. Capistrano - Swiss Army Knife<a class="headerlink" href="#capistrano-swiss-army-knife" title="Stały odnośnik do tego nagłówka">¶</a></h1>
+<p><tt class="docutils literal"><span class="pre">Capistrano</span></tt> jest napisanym w języku <tt class="docutils literal"><span class="pre">ruby</span></tt> systemem zdalnego zarządzania zasobami serwerów, przeznaczonym dla
+dowolnego języka programowania. Może służyć do wdrażania lub zdalnego wykonywania komend
+na wielu serwerach jednocześnie.</p>
+<p>System powstał z myślą o wdrażaniu projektów <tt class="docutils literal"><span class="pre">ruby</span> <span class="pre">on</span> <span class="pre">rails</span></tt>, jednak jego funkcjonalność
+jest na tyle uniwersalna, że może służyć właściwie dla każdego języka programowania i każdego typu projektu.</p>
+<div class="section" id="instalacja">
+<h2>4.1. Instalacja<a class="headerlink" href="#instalacja" title="Stały odnośnik do tego nagłówka">¶</a></h2>
+<p><tt class="docutils literal"><span class="pre">Capistrano</span></tt> jest dostępny jako pakiet <tt class="docutils literal"><span class="pre">gem</span></tt> dla <tt class="docutils literal"><span class="pre">ruby</span></tt>.</p>
+<div class="highlight-bash"><div class="highlight"><pre><span class="nv">$ </span>gem -v
+1.8.23
+</pre></div>
+</div>
+<p>Najniższa wymagana wersja to <tt class="docutils literal"><span class="pre">1.3.x</span></tt>, jeżeli nie nie posiadasz takiej, należy przeprowadzić aktualizację a następnie wykonać komendę:</p>
+<div class="highlight-bash"><div class="highlight"><pre><span class="nv">$ </span>gem install capistrano
+</pre></div>
+</div>
+<p>Po pomyślnie wykonanej instalacji powinno być możliwe wykonanie poniższej komendy:</p>
+<div class="highlight-none"><div class="highlight"><pre>$ cap --help
+Usage: cap [options] action ...
+    -d, --debug                      Prompts before each remote command execution.
+    -e, --explain TASK               Displays help (if available) for the task.
+    -F, --default-config             Always use default config, even with -f.
+    -f, --file FILE                  A recipe file to load. May be given more than once.
+    -H, --long-help                  Explain these options and environment variables.
+    -h, --help                       Display this help message.
+    -l [STDERR|STDOUT|file],         Choose logger method. STDERR used by default.
+        --logger
+    -n, --dry-run                    Prints out commands without running them.
+    -p, --password                   Immediately prompt for the password.
+    -q, --quiet                      Make the output as quiet as possible.
+    -r, --preserve-roles             Preserve task roles
+    -S, --set-before NAME=VALUE      Set a variable before the recipes are loaded.
+    -s, --set NAME=VALUE             Set a variable after the recipes are loaded.
+    -T, --tasks [PATTERN]            List all tasks (matching optional PATTERN) in the loaded recipe files.
+    -t, --tool                       Abbreviates the output of -T for tool integration.
+    -V, --version                    Display the Capistrano version, and exit.
+    -v, --verbose                    Be more verbose. May be given more than once.
+    -X, --skip-system-config         Don&#39;t load the system config file (capistrano.conf)
+    -x, --skip-user-config           Don&#39;t load the user config file (.caprc)
+</pre></div>
+</div>
+</div>
+<div class="section" id="skrypt-cap">
+<h2>4.2. Skrypt <tt class="docutils literal"><span class="pre">cap</span></tt><a class="headerlink" href="#skrypt-cap" title="Stały odnośnik do tego nagłówka">¶</a></h2>
+<p>Skrypt <tt class="docutils literal"><span class="pre">cap</span></tt> jest narzędziem umożliwiającym połączenie ze zdalnymi serwerami i wykonywanie
+na nich komend.</p>
+<div class="highlight-bash"><div class="highlight"><pre><span class="nv">$ </span>cat <span class="sb">`</span>which cap<span class="sb">`</span>
+<span class="c">#!/usr/bin/ruby1.9.1</span>
+<span class="c">#</span>
+<span class="c"># This file was generated by RubyGems.</span>
+<span class="c">#</span>
+<span class="c"># The application &#39;capistrano&#39; is installed as part of a gem, and</span>
+<span class="c"># this file is here to facilitate running it.</span>
+<span class="c">#</span>
+
+require <span class="s1">&#39;rubygems&#39;</span>
+
+<span class="nv">version</span> <span class="o">=</span> <span class="s2">&quot;&gt;= 0&quot;</span>
+
+<span class="k">if </span>ARGV.first
+  <span class="nv">str</span> <span class="o">=</span> ARGV.first
+  <span class="nv">str</span> <span class="o">=</span> str.dup.force_encoding<span class="o">(</span><span class="s2">&quot;BINARY&quot;</span><span class="o">)</span> <span class="k">if </span>str.respond_to? :force_encoding
+  <span class="k">if </span><span class="nv">str</span> <span class="o">=</span>~ /<span class="se">\A</span>_<span class="o">(</span>.*<span class="o">)</span>_<span class="se">\z</span>/
+    <span class="nv">version</span> <span class="o">=</span> <span class="nv">$1</span>
+    ARGV.shift
+  end
+end
+
+gem <span class="s1">&#39;capistrano&#39;</span>, version
+load Gem.bin_path<span class="o">(</span><span class="s1">&#39;capistrano&#39;</span>, <span class="s1">&#39;cap&#39;</span>, version<span class="o">)</span>
+</pre></div>
+</div>
+<p>Lista dostępnych komend po wydaniu polecenia</p>
+<div class="highlight-bash"><div class="highlight"><pre><span class="nv">$ </span>cap -T
+<span class="nv">$ </span>cap -vT
+</pre></div>
+</div>
+<p>Skryptu można używać z linii komend podając odpowiednie parametry:</p>
+<div class="highlight-bash"><div class="highlight"><pre><span class="nv">$ </span>cap invoke <span class="nv">HOSTS</span><span class="o">=</span><span class="s2">&quot;new.ses-control.com,platform.ses-support.com&quot;</span> <span class="nv">COMMAND</span><span class="o">=</span><span class="s2">&quot;date&quot;</span>
+</pre></div>
+</div>
+<div class="highlight-text"><div class="highlight"><pre> * 2014-04-03 10:36:44 executing `invoke&#39;
+ * executing multiple commands in parallel
+   -&gt; &quot;else&quot; :: &quot;date&quot;
+   -&gt; &quot;else&quot; :: &quot;date&quot;
+   servers: [&quot;new.ses-control.com&quot;, &quot;platform.ses-support.com&quot;]
+   [new.ses-control.com] executing command
+   [platform.ses-support.com] executing command
+** [out :: new.ses-control.com] czw, 3 kwi 2014, 10:36:44 CEST
+** [out :: platform.ses-support.com] czw, 3 kwi 2014, 10:36:44 CEST
+command finished in 44ms
+</pre></div>
+</div>
+<p>Jeżeli do komendy wymagane jest <tt class="docutils literal"><span class="pre">sudo</span></tt> przekazujemy dodatkowy parametr:</p>
+<div class="highlight-bash"><div class="highlight"><pre><span class="nv">$ </span>cap invoke <span class="nv">HOSTS</span><span class="o">=</span><span class="s2">&quot;new.ses-control.com,platform.ses-support.com&quot;</span> <span class="nv">COMMAND</span><span class="o">=</span><span class="s2">&quot;date&quot;</span> <span class="nv">SUDO</span><span class="o">=</span>1
+</pre></div>
+</div>
+<p>Tu niestety może pojawić się błąd:</p>
+<div class="highlight-none"><div class="highlight"><pre>  * 2014-04-03 10:51:12 executing `invoke&#39;
+  * executing multiple commands in parallel
+    -&gt; &quot;else&quot; :: &quot;sudo -p &#39;sudo password: &#39; date&quot;
+    -&gt; &quot;else&quot; :: &quot;sudo -p &#39;sudo password: &#39; date&quot;
+    servers: [&quot;new.ses-control.com&quot;, &quot;platform.ses-support.com&quot;]
+    [platform.ses-support.com] executing command
+    [new.ses-control.com] executing command
+*** [err :: platform.ses-support.com] sudo
+*** [err :: platform.ses-support.com] :
+*** [err :: platform.ses-support.com] no tty present and no askpass program specified
+*** [err :: platform.ses-support.com]
+*** [err :: new.ses-control.com] sudo
+*** [err :: new.ses-control.com] :
+*** [err :: new.ses-control.com] no tty present and no askpass program specified
+*** [err :: new.ses-control.com]
+    command finished in 87ms
+failed: &quot;sh -c &#39;sudo -p &#39;\\&#39;&#39;sudo password: &#39;\\&#39;&#39; date&#39;&quot; on new.ses-control.com,platform.ses-support.com
+</pre></div>
+</div>
+<p>Aby umożliwić wykonywanie komend sudo musimy utworzyć plik konfiguracyjny i dodać linijkę:</p>
+<div class="highlight-ruby"><div class="highlight"><pre><span class="n">default_run_options</span><span class="o">[</span><span class="ss">:pty</span><span class="o">]</span> <span class="o">=</span> <span class="kp">true</span>
+</pre></div>
+</div>
+<p>Poniżej domyślne nazwy plików konfiguracyjnych dla <tt class="docutils literal"><span class="pre">cap</span></tt>.</p>
+<p><tt class="docutils literal"><span class="pre">/etc/capistrano.conf</span></tt> - ustawienie globalne serwera (pomijany parametrem <tt class="docutils literal"><span class="pre">--skip-system-config</span></tt>)</p>
+<p><tt class="docutils literal"><span class="pre">~/.caprc</span> <span class="pre">file</span></tt> - ustawienie dla konta użytkownika (pomijany parametrem <tt class="docutils literal"><span class="pre">--skip-user-config</span></tt>)</p>
+<p><tt class="docutils literal"><span class="pre">./Capfile</span></tt> - ustawienie dla projektu</p>
+<p><tt class="docutils literal"><span class="pre">deploy.rb</span></tt> - alternatywne ustawienie dla projektu</p>
+</div>
+<div class="section" id="automatyczne-tworzenie-pliku-konfiguracji">
+<h2>4.3. Automatyczne tworzenie pliku konfiguracji<a class="headerlink" href="#automatyczne-tworzenie-pliku-konfiguracji" title="Stały odnośnik do tego nagłówka">¶</a></h2>
+<p>Plik konfiguracyjny dla projektu można utworzyć automatycznie:</p>
+<div class="highlight-bash"><div class="highlight"><pre><span class="nv">$ </span><span class="nb">cd</span> /path/to/your/project
+<span class="nv">$ </span>capify .
+</pre></div>
+</div>
+<div class="highlight-none"><div class="highlight"><pre>[add] writing &#39;/path/to/your/project/Capfile&#39;
+[add] making directory &#39;/path/to/your/project/config&#39;
+[add] writing &#39;/path/to/your/project/config/deploy.rb&#39;
+[done] capified!
+</pre></div>
+</div>
+<p>Zawartość katalogu <tt class="docutils literal"><span class="pre">/path/to/your/project</span></tt>:</p>
+<div class="highlight-none"><div class="highlight"><pre>$ ls -R /path/to/your/project
+/path/to/your/project:
+Capfile  config
+
+/path/to/your/project/config:
+deploy.rb
+</pre></div>
+</div>
+<p>Zawartość <tt class="docutils literal"><span class="pre">/path/to/your/project/Capfile</span></tt></p>
+<div class="highlight-ruby"><div class="highlight"><pre><span class="nb">load</span> <span class="s1">&#39;deploy&#39;</span>
+<span class="c1"># Uncomment if you are using Rails&#39; asset pipeline</span>
+    <span class="c1"># load &#39;deploy/assets&#39;</span>
+<span class="nb">load</span> <span class="s1">&#39;config/deploy&#39;</span> <span class="c1"># remove this line to skip loading any of the default tasks</span>
+</pre></div>
+</div>
+<p>Zawartość <tt class="docutils literal"><span class="pre">/path/to/your/project/deploy.rb</span></tt></p>
+<div class="highlight-ruby"><div class="highlight"><pre><span class="n">set</span> <span class="ss">:application</span><span class="p">,</span> <span class="s2">&quot;set your application name here&quot;</span>
+<span class="n">set</span> <span class="ss">:repository</span><span class="p">,</span>  <span class="s2">&quot;set your repository location here&quot;</span>
+
+<span class="c1"># set :scm, :git # You can set :scm explicitly or Capistrano will make an intelligent guess based on known version control directory names</span>
+<span class="c1"># Or: `accurev`, `bzr`, `cvs`, `darcs`, `git`, `mercurial`, `perforce`, `subversion` or `none`</span>
+
+<span class="n">role</span> <span class="ss">:web</span><span class="p">,</span> <span class="s2">&quot;your web-server here&quot;</span>                          <span class="c1"># Your HTTP server, Apache/etc</span>
+<span class="n">role</span> <span class="ss">:app</span><span class="p">,</span> <span class="s2">&quot;your app-server here&quot;</span>                          <span class="c1"># This may be the same as your `Web` server</span>
+<span class="n">role</span> <span class="ss">:db</span><span class="p">,</span>  <span class="s2">&quot;your primary db-server here&quot;</span><span class="p">,</span> <span class="ss">:primary</span> <span class="o">=&gt;</span> <span class="kp">true</span> <span class="c1"># This is where Rails migrations will run</span>
+<span class="n">role</span> <span class="ss">:db</span><span class="p">,</span>  <span class="s2">&quot;your slave db-server here&quot;</span>
+
+<span class="c1"># if you want to clean up old releases on each deploy uncomment this:</span>
+<span class="c1"># after &quot;deploy:restart&quot;, &quot;deploy:cleanup&quot;</span>
+
+<span class="c1"># if you&#39;re still using the script/reaper helper you will need</span>
+<span class="c1"># these http://github.com/rails/irs_process_scripts</span>
+
+<span class="c1"># If you are using Passenger mod_rails uncomment this:</span>
+<span class="c1"># namespace :deploy do</span>
+<span class="c1">#   task :start do ; end</span>
+<span class="c1">#   task :stop do ; end</span>
+<span class="c1">#   task :restart, :roles =&gt; :app, :except =&gt; { :no_release =&gt; true } do</span>
+<span class="c1">#     run &quot;#{try_sudo} touch #{File.join(current_path,&#39;tmp&#39;,&#39;restart.txt&#39;)}&quot;</span>
+<span class="c1">#   end</span>
+<span class="c1"># end</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="przykladowa-konfiguracja-w-pliku-capfile">
+<h2>4.4. Przykładowa konfiguracja w pliku <tt class="docutils literal"><span class="pre">Capfile</span></tt><a class="headerlink" href="#przykladowa-konfiguracja-w-pliku-capfile" title="Stały odnośnik do tego nagłówka">¶</a></h2>
+<div class="highlight-ruby"><div class="highlight"><pre><span class="nb">load</span> <span class="s1">&#39;deploy&#39;</span> <span class="k">if</span> <span class="nb">respond_to?</span><span class="p">(</span><span class="ss">:namespace</span><span class="p">)</span> <span class="c1"># cap2 differentiator</span>
+
+<span class="c1"># RUN OPTIONS:</span>
+
+<span class="n">default_run_options</span><span class="o">[</span><span class="ss">:pty</span><span class="o">]</span> <span class="o">=</span> <span class="kp">true</span>
+
+<span class="c1"># SSH SETTINGS:</span>
+
+<span class="n">ssh_options</span><span class="o">[</span><span class="ss">:forward_agent</span><span class="o">]</span> <span class="o">=</span> <span class="kp">true</span>
+
+<span class="c1"># SERVERS</span>
+
+<span class="n">role</span> <span class="ss">:app</span><span class="p">,</span>
+    <span class="s1">&#39;new.ses-control.com&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;platform.ses-support.com&#39;</span>
+</pre></div>
+</div>
+<p>Powyższa konfiguracja umożliwia wykonanie komend bez podawania listy serwerów.</p>
+<div class="highlight-bash"><div class="highlight"><pre><span class="nv">$ </span>cap invoke <span class="nv">COMMAND</span><span class="o">=</span><span class="s2">&quot;date&quot;</span>
+<span class="nv">$ </span>cap invoke <span class="nv">COMMAND</span><span class="o">=</span><span class="s2">&quot;date&quot;</span> <span class="nv">SUDO</span><span class="o">=</span>1
+</pre></div>
+</div>
+</div>
+</div>
+
+
+          </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related">
+      <h3>Nawigacja</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="Indeks ogólny"
+             >indeks</a></li>
+        <li class="right" >
+          <a href="check.html" title="5. Sprawdzanie ustawień na serwerze lokalnym i zdalnym"
+             >dalej</a> |</li>
+        <li class="right" >
+          <a href="rsync.html" title="3. Narzędzie do synchronizacji katalogów rsync"
+             >wstecz</a> |</li>
+        <li><a href="../index.html">Wdrażanie (deployment) projektów Symfony2 przy pomocy Capifony 1.0 - dokumentacja</a> &raquo;</li> 
+      </ul>
+    </div>
+    <div class="footer">
+        &copy; Copyright 2014, Jacek Siciarek.
+      Utworzone przy pomocy <a href="http://sphinx-doc.org/">Sphinx</a>'a 1.2b3.
+    </div>
+  </body>
+</html>
