@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE project>
+
+<project name="capifony" basedir="." default="doc">
+
+    <property name="doc.source.dir" value="src"/>
+    <property name="doc.html.target.dir" value="doc"/>
+    <property name="doc.pdf.target.dir" value="doc/pdf"/>
+
+    <target name="doc" depends="ccx, doc-html, doc-pdf" description="Generowanie dokumentacji projektu"/>
+
+    <target name="ccx">
+        <delete verbose="true" includeemptydirs="true">
+            <fileset dir="doc" excludes=".gitkeep" includes="**/*"/>
+        </delete>
+    </target>
+
+    <target name="doc-html" description="Generowanie dokumentacji projektu w formacie HTML">
+        <exec executable="sphinx-build">
+            <arg line="-a -b html ${doc.source.dir} ${doc.html.target.dir}"/>
+        </exec>
+    </target>
+
+    <target name="doc-pdf" description="Generowanie dokumentacji projektu w formacie PDF">
+        <exec executable="sphinx-build">
+            <arg line="-a -b latex ${doc.source.dir} ${doc.pdf.target.dir}"/>
+        </exec>
+        <exec executable="make" dir="${doc.pdf.target.dir}"/>
+        <delete verbose="true" includeemptydirs="true">
+            <fileset dir="${doc.pdf.target.dir}" excludes="${ant.project.name}.pdf" includes="**/*"/>
+        </delete>
+    </target>
+
+</project>
+

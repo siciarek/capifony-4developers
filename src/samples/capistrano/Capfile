@@ -1,0 +1,15 @@
+load 'deploy' if respond_to?(:namespace) # cap2 differentiator
+
+# RUN OPTIONS:
+
+default_run_options[:pty] = true
+
+# SSH SETTINGS:
+
+ssh_options[:forward_agent] = true
+
+# SERVERS
+
+role :app,
+    'new.ses-control.com',
+    'platform.ses-support.com'

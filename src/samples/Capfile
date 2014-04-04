@@ -1,0 +1,130 @@
+
+load 'deploy' if respond_to?(:namespace) # cap2 differentiator
+
+require 'capifony_symfony2'
+
+#SSH SETTINGS:
+
+ssh_options[:forward_agent] = true
+set :use_sudo,            false
+
+# -----------------------------------------------------------------------------
+
+set :application,   "clientcard"
+set :user,          "usync"
+set :domain,        "ekk.sescom.pl"
+set :repository,    "git@ses-support.net:/home/git/repos/#{application}.git"
+set :deploy_to,     "/d0/www/#{domain}"
+
+# -----------------------------------------------------------------------------
+
+role :web,          "ekk.sescom.pl"                    # Your HTTP server, Apache/etc
+role :app,          "ekk.sescom.pl", :primary => true  # This may be the same as your `Web` server
+
+
+# SCM SETTINGS:
+
+# You can set :scm explicitly or Capistrano will make an intelligent guess based on known version control directory names
+set :scm,                   :git    # Or: :git, :accurev, :bzr, :cvs, :darcs, :subversion, :mercurial, :perforce, or :none
+set :deploy_via,            :copy   # Or: :copy, :export, :remote_cache :checkout, :rsync_with_remote_cache
+set :git_enable_submodules, true
+
+set :copy_exclude,  [
+    ".git",
+    ".gitignore",
+    "/ild.xml",
+    "/app/config/config_test.yml",
+    "/bin",
+    "/src/Application/MainBundle/Tests",
+    "/src/Application/MainBundle/Resources/doc",
+    "/web/apple-touch-icon.png",
+]
+
+
+# SETUP PROPER PERMISSION:
+
+#set :writable_dirs,       [ "app/cache", "app/logs" ]
+#set :webserver_user,      "www-data"
+#set :permission_method,   :acl
+#set :use_set_permissions, true
+
+# COMPOSER SETTINGS:
+set :use_composer,        true
+#set :composer_bin,       "/home/usync/bin/composer"
+set :interactive_mode,    false
+
+
+# SYMFONY 2 SPECIFIC SETTINGS:
+
+set :model_manager,       "doctrine" # Or: `propel`
+set :shared_files,        [ "app/config/parameters.yml", "build.xml", "properties.cnf" ]
+set :shared_children,     [ log_path, web_path + "/uploads", "vendor" ]
+
+set :update_vendors,      true
+set :dump_assetic_assets, true
+set :assets_symlinks,     true
+
+
+# LOGGER VERBOSITY:
+
+logger.level = Logger::MAX_LEVEL
+
+
+# OTHER SETINGS:
+
+set :keep_releases, 3
+
+
+
+# TASKS:
+
+task :dbg do
+    origin_file = "app_dev.php"
+    destination_file = deploy_to + "/current/web/" + origin_file # Notice the shared_path
+    try_sudo "mkdir -p #{File.dirname(destination_file)}"
+    top.upload(origin_file, destination_file)
+end
+
+task :udbg do
+    origin_file = "app_dev.php"
+    destination_file = deploy_to + "/current/web/" + origin_file # Notice the shared_path
+    try_sudo "mkdir -p #{File.dirname(destination_file)}"
+    try_sudo "rm -rvf #{destination_file}"
+end
+
+task :fc do
+    origin_file = "app.php"
+    destination_file = deploy_to + "/current/web/" + origin_file
+    try_sudo "mkdir -p #{File.dirname(destination_file)}"
+    top.upload(origin_file, destination_file)
+end
+
+task :upload_addons do
+    origin_file = "parameters.yml"
+    destination_file = shared_path + "/app/config/#{origin_file}" # Notice the shared_path
+    try_sudo "mkdir -p #{File.dirname(destination_file)}"
+    top.upload(origin_file, destination_file)
+
+    origin_file = "properties.cnf"
+    destination_file = shared_path + "/#{origin_file}" # Notice the shared_path
+    try_sudo "mkdir -p #{File.dirname(destination_file)}"
+    top.upload(origin_file, destination_file)
+
+    origin_file = "ant/build.xml"
+    destination_file = shared_path + "/build.xml" # Notice the shared_path
+    try_sudo "mkdir -p #{File.dirname(destination_file)}"
+    top.upload(origin_file, destination_file)end
+
+task :to_do_after_deploy do
+    deploy.cleanup
+    upload_addons
+    fc
+end
+
+
+# EVENT HANDLING:
+
+before "deploy",      "upload_addons"
+
+after  "deploy:setup", "upload_addons"
+after  "deploy",       "to_do_after_deploy"
