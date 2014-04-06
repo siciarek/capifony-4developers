@@ -12,17 +12,19 @@ Spis treści
     :numbered:
     :titlesonly:
 
-    references/deployment
-    references/deployment.strategies
     references/rsync
 
     references/capistrano
-    references/check
     references/setup
+    references/check
     references/scm
     references/logger
 
     references/capifony
     references/access
+    references/symfony
+    references/tasks
     references/maintenance
+    references/capfile
+    references/tools
 

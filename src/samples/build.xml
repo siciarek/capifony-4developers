@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE project>
+
+<project default="sync" basedir=".">
+
+    <target name="sync" depends="dep, cc"/>
+
+    <target name="dep">
+        <exec executable="cap">
+            <arg line="deploy"/>
+        </exec>
+    </target>
+
+    <target name="db">
+        <exec executable="cap">
+            <arg line="symfony:doctrine:database:drop"/>
+        </exec>
+        <exec executable="cap">
+            <arg line="symfony:doctrine:database:create"/>
+        </exec>
+        <exec executable="cap">
+            <arg line="symfony:doctrine:schema:update"/>
+        </exec>
+        <exec executable="cap">
+            <arg line="symfony:doctrine:load_fixtures"/>
+        </exec>
+    </target>
+
+    <target name="rb">
+        <exec executable="cap">
+            <arg line="deploy:rollback"/>
+        </exec>
+    </target>
+
+    <target name="cc">
+        <exec executable="cap">
+            <arg line="symfony:cache:clear"/>
+        </exec>
+        <exec executable="cap">
+            <arg line="symfony:cache:warmup"/>
+        </exec>
+        <exec executable="cap">
+            <arg line="symfony:assets:install"/>
+        </exec>
+        <exec executable="cap">
+            <arg line="symfony:assetic:dump"/>
+        </exec>
+        <exec executable="bash">
+            <arg line="-c &quot;echo fos:js-routing:dump | cap symfony&quot;"/>
+        </exec>
+    </target>
+
+</project>

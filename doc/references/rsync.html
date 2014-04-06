@@ -6,7 +6,7 @@
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     
-    <title>3. Narzędzie do synchronizacji katalogów rsync &mdash; Wdrażanie (deployment) projektów Symfony2 przy pomocy Capifony 1.0 - dokumentacja</title>
+    <title>1. Narzędzie do synchronizacji katalogów rsync &mdash; Wdrażanie (deployment) projektów Symfony2 przy pomocy Capifony 1.0 - dokumentacja</title>
     
     <link rel="stylesheet" href="../_static/nature.css" type="text/css" />
     <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
@@ -23,8 +23,8 @@
     </script>
     <script type="text/javascript" src="http://symfony.com/js/all.js"></script>
     <link rel="top" title="Wdrażanie (deployment) projektów Symfony2 przy pomocy Capifony 1.0 - dokumentacja" href="../index.html" />
-    <link rel="next" title="4. Capistrano - Swiss Army Knife" href="capistrano.html" />
-    <link rel="prev" title="2. Strategie wdrożeniowe" href="deployment.strategies.html" /> 
+    <link rel="next" title="2. Capistrano - Swiss Army Knife" href="capistrano.html" />
+    <link rel="prev" title="Wdrażanie (deployment) projektów Symfony2 przy pomocy Capifony" href="../index.html" /> 
   </head>
   <body>
     <div class="related">
@@ -34,10 +34,10 @@
           <a href="../genindex.html" title="Indeks ogólny"
              accesskey="I">indeks</a></li>
         <li class="right" >
-          <a href="capistrano.html" title="4. Capistrano - Swiss Army Knife"
+          <a href="capistrano.html" title="2. Capistrano - Swiss Army Knife"
              accesskey="N">dalej</a> |</li>
         <li class="right" >
-          <a href="deployment.strategies.html" title="2. Strategie wdrożeniowe"
+          <a href="../index.html" title="Wdrażanie (deployment) projektów Symfony2 przy pomocy Capifony"
              accesskey="P">wstecz</a> |</li>
         <li><a href="../index.html">Wdrażanie (deployment) projektów Symfony2 przy pomocy Capifony 1.0 - dokumentacja</a> &raquo;</li> 
       </ul>
@@ -48,12 +48,12 @@
           <div class="body">
             
   <div class="section" id="narzedzie-do-synchronizacji-katalogow-rsync">
-<h1>3. Narzędzie do synchronizacji katalogów <tt class="docutils literal"><span class="pre">rsync</span></tt><a class="headerlink" href="#narzedzie-do-synchronizacji-katalogow-rsync" title="Stały odnośnik do tego nagłówka">¶</a></h1>
+<h1>1. Narzędzie do synchronizacji katalogów <tt class="docutils literal"><span class="pre">rsync</span></tt><a class="headerlink" href="#narzedzie-do-synchronizacji-katalogow-rsync" title="Stały odnośnik do tego nagłówka">¶</a></h1>
 <p>Rsync jest aplikacją do synchronizacji katalogów na sewerze lokalnym i zdalnym, w obu kierunkach.</p>
 <p>Strona projektu <a class="reference external" href="http://rsync.samba.org">http://rsync.samba.org</a>.</p>
 <p>Szczegółowa dokumentacja <a class="reference external" href="http://rsync.samba.org/ftp/rsync/rsync.html">http://rsync.samba.org/ftp/rsync/rsync.html</a>.</p>
 <div class="section" id="przyklad-sparametryzowanej-komendy-rsync">
-<h2>3.1. Przykład sparametryzowanej komendy <tt class="docutils literal"><span class="pre">rsync</span></tt><a class="headerlink" href="#przyklad-sparametryzowanej-komendy-rsync" title="Stały odnośnik do tego nagłówka">¶</a></h2>
+<h2>1.1. Przykład sparametryzowanej komendy <tt class="docutils literal"><span class="pre">rsync</span></tt><a class="headerlink" href="#przyklad-sparametryzowanej-komendy-rsync" title="Stały odnośnik do tego nagłówka">¶</a></h2>
 <div class="highlight-bash"><div class="highlight"><pre><span class="nv">SOURCE</span><span class="o">=</span>.
 <span class="nv">TARGET</span><span class="o">=</span>dude@target.server.com:/var/www/target.server.com
 
@@ -77,7 +77,7 @@ rsync <span class="se">\</span>
 </div>
 </div>
 <div class="section" id="przykladowy-wynik-dzialania-komendy-rsync">
-<h2>3.2. Przykładowy wynik działania komendy <tt class="docutils literal"><span class="pre">rsync</span></tt><a class="headerlink" href="#przykladowy-wynik-dzialania-komendy-rsync" title="Stały odnośnik do tego nagłówka">¶</a></h2>
+<h2>1.2. Przykładowy wynik działania komendy <tt class="docutils literal"><span class="pre">rsync</span></tt><a class="headerlink" href="#przykladowy-wynik-dzialania-komendy-rsync" title="Stały odnośnik do tego nagłówka">¶</a></h2>
 <div class="highlight-none"><div class="highlight"><pre>sending incremental file list
 .L..t...... lib/doctrine/linked_schema.yml -&gt; ../../data/linked_schema.yml
 *deleting   web/apc.php
@@ -101,7 +101,7 @@ total size is 150.32M  speedup is 704.24 (DRY RUN)
 </div>
 </div>
 <div class="section" id="jak-rozumiec-format-opisu-zmiany">
-<h2>3.3. Jak rozumieć format opisu zmiany<a class="headerlink" href="#jak-rozumiec-format-opisu-zmiany" title="Stały odnośnik do tego nagłówka">¶</a></h2>
+<h2>1.3. Jak rozumieć format opisu zmiany<a class="headerlink" href="#jak-rozumiec-format-opisu-zmiany" title="Stały odnośnik do tego nagłówka">¶</a></h2>
 <div class="highlight-none"><div class="highlight"><pre>*deleting   web/apc.php
 &lt;f+++++++++ newfile.txt
 .L..t...... lib/doctrine/linked_schema.yml -&gt; ../../data/linked_schema.yml
@@ -173,10 +173,10 @@ total size is 150.32M  speedup is 704.24 (DRY RUN)
           <a href="../genindex.html" title="Indeks ogólny"
              >indeks</a></li>
         <li class="right" >
-          <a href="capistrano.html" title="4. Capistrano - Swiss Army Knife"
+          <a href="capistrano.html" title="2. Capistrano - Swiss Army Knife"
              >dalej</a> |</li>
         <li class="right" >
-          <a href="deployment.strategies.html" title="2. Strategie wdrożeniowe"
+          <a href="../index.html" title="Wdrażanie (deployment) projektów Symfony2 przy pomocy Capifony"
              >wstecz</a> |</li>
         <li><a href="../index.html">Wdrażanie (deployment) projektów Symfony2 przy pomocy Capifony 1.0 - dokumentacja</a> &raquo;</li> 
       </ul>

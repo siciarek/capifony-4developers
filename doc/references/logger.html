@@ -6,7 +6,7 @@
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     
-    <title>8. Zakres informacji zwracany przez cap &mdash; Wdrażanie (deployment) projektów Symfony2 przy pomocy Capifony 1.0 - dokumentacja</title>
+    <title>6. Zakres informacji zwracany przez cap &mdash; Wdrażanie (deployment) projektów Symfony2 przy pomocy Capifony 1.0 - dokumentacja</title>
     
     <link rel="stylesheet" href="../_static/nature.css" type="text/css" />
     <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
@@ -23,8 +23,8 @@
     </script>
     <script type="text/javascript" src="http://symfony.com/js/all.js"></script>
     <link rel="top" title="Wdrażanie (deployment) projektów Symfony2 przy pomocy Capifony 1.0 - dokumentacja" href="../index.html" />
-    <link rel="next" title="9. Capifony - Capistrano dla Symfony" href="capifony.html" />
-    <link rel="prev" title="7. Source Control Management" href="scm.html" /> 
+    <link rel="next" title="7. Capifony - Capistrano dla Symfony" href="capifony.html" />
+    <link rel="prev" title="5. Source Control Management" href="scm.html" /> 
   </head>
   <body>
     <div class="related">
@@ -34,10 +34,10 @@
           <a href="../genindex.html" title="Indeks ogólny"
              accesskey="I">indeks</a></li>
         <li class="right" >
-          <a href="capifony.html" title="9. Capifony - Capistrano dla Symfony"
+          <a href="capifony.html" title="7. Capifony - Capistrano dla Symfony"
              accesskey="N">dalej</a> |</li>
         <li class="right" >
-          <a href="scm.html" title="7. Source Control Management"
+          <a href="scm.html" title="5. Source Control Management"
              accesskey="P">wstecz</a> |</li>
         <li><a href="../index.html">Wdrażanie (deployment) projektów Symfony2 przy pomocy Capifony 1.0 - dokumentacja</a> &raquo;</li> 
       </ul>
@@ -48,10 +48,10 @@
           <div class="body">
             
   <div class="section" id="zakres-informacji-zwracany-przez-cap">
-<h1>8. Zakres informacji zwracany przez <tt class="docutils literal"><span class="pre">cap</span></tt><a class="headerlink" href="#zakres-informacji-zwracany-przez-cap" title="Stały odnośnik do tego nagłówka">¶</a></h1>
+<h1>6. Zakres informacji zwracany przez <tt class="docutils literal"><span class="pre">cap</span></tt><a class="headerlink" href="#zakres-informacji-zwracany-przez-cap" title="Stały odnośnik do tego nagłówka">¶</a></h1>
 <p>Capistrano umożliwia wyświetlanie informacji o wykonywanych komendach w różnych zakresach.</p>
 <div class="section" id="typy-zakresu">
-<h2>8.1. Typy zakresu<a class="headerlink" href="#typy-zakresu" title="Stały odnośnik do tego nagłówka">¶</a></h2>
+<h2>6.1. Typy zakresu<a class="headerlink" href="#typy-zakresu" title="Stały odnośnik do tego nagłówka">¶</a></h2>
 <div class="highlight-ruby"><div class="highlight"><pre><span class="n">logger</span><span class="o">.</span><span class="n">level</span> <span class="o">=</span> <span class="ss">Logger</span><span class="p">:</span><span class="ss">:IMPORTANT</span> <span class="c1"># --&gt;</span>
 <span class="n">logger</span><span class="o">.</span><span class="n">level</span> <span class="o">=</span> <span class="ss">Logger</span><span class="p">:</span><span class="ss">:INFO</span>      <span class="c1"># **</span>
 <span class="n">logger</span><span class="o">.</span><span class="n">level</span> <span class="o">=</span> <span class="ss">Logger</span><span class="p">:</span><span class="ss">:DEBUG</span>     <span class="c1">#  *</span>
@@ -75,7 +75,7 @@
 </div>
 </div>
 <div class="section" id="przykladowy-wynik-ustawien">
-<h2>8.2. Przykładowy wynik ustawień<a class="headerlink" href="#przykladowy-wynik-ustawien" title="Stały odnośnik do tego nagłówka">¶</a></h2>
+<h2>6.2. Przykładowy wynik ustawień<a class="headerlink" href="#przykladowy-wynik-ustawien" title="Stały odnośnik do tego nagłówka">¶</a></h2>
 <div class="highlight-ruby"><div class="highlight"><pre><span class="n">logger</span><span class="o">.</span><span class="n">level</span> <span class="o">=</span> <span class="ss">Logger</span><span class="p">:</span><span class="ss">:IMPORTANT</span>
 </pre></div>
 </div>
@@ -222,7 +222,7 @@
 </div>
 </div>
 <div class="section" id="zapis-loga-do-pliku">
-<h2>8.3. Zapis loga do pliku<a class="headerlink" href="#zapis-loga-do-pliku" title="Stały odnośnik do tego nagłówka">¶</a></h2>
+<h2>6.3. Zapis loga do pliku<a class="headerlink" href="#zapis-loga-do-pliku" title="Stały odnośnik do tego nagłówka">¶</a></h2>
 <div class="highlight-ruby"><div class="highlight"><pre><span class="n">log_file</span> <span class="o">=</span> <span class="s2">&quot;deployment.log&quot;</span>
 <span class="nb">self</span><span class="o">.</span><span class="n">logger</span> <span class="o">=</span> <span class="no">Logger</span><span class="o">.</span><span class="n">new</span><span class="p">(</span><span class="ss">:output</span> <span class="o">=&gt;</span> <span class="n">log_file</span><span class="p">)</span>
 
@@ -244,10 +244,10 @@
           <a href="../genindex.html" title="Indeks ogólny"
              >indeks</a></li>
         <li class="right" >
-          <a href="capifony.html" title="9. Capifony - Capistrano dla Symfony"
+          <a href="capifony.html" title="7. Capifony - Capistrano dla Symfony"
              >dalej</a> |</li>
         <li class="right" >
-          <a href="scm.html" title="7. Source Control Management"
+          <a href="scm.html" title="5. Source Control Management"
              >wstecz</a> |</li>
         <li><a href="../index.html">Wdrażanie (deployment) projektów Symfony2 przy pomocy Capifony 1.0 - dokumentacja</a> &raquo;</li> 
       </ul>

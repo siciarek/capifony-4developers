@@ -6,7 +6,7 @@
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     
-    <title>7. Source Control Management &mdash; Wdrażanie (deployment) projektów Symfony2 przy pomocy Capifony 1.0 - dokumentacja</title>
+    <title>5. Source Control Management &mdash; Wdrażanie (deployment) projektów Symfony2 przy pomocy Capifony 1.0 - dokumentacja</title>
     
     <link rel="stylesheet" href="../_static/nature.css" type="text/css" />
     <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
@@ -23,8 +23,8 @@
     </script>
     <script type="text/javascript" src="http://symfony.com/js/all.js"></script>
     <link rel="top" title="Wdrażanie (deployment) projektów Symfony2 przy pomocy Capifony 1.0 - dokumentacja" href="../index.html" />
-    <link rel="next" title="8. Zakres informacji zwracany przez cap" href="logger.html" />
-    <link rel="prev" title="6. Inicjalizacja środowiska produkcyjnego aplikacji" href="setup.html" /> 
+    <link rel="next" title="6. Zakres informacji zwracany przez cap" href="logger.html" />
+    <link rel="prev" title="4. Sprawdzanie ustawień na serwerze lokalnym i zdalnym" href="check.html" /> 
   </head>
   <body>
     <div class="related">
@@ -34,10 +34,10 @@
           <a href="../genindex.html" title="Indeks ogólny"
              accesskey="I">indeks</a></li>
         <li class="right" >
-          <a href="logger.html" title="8. Zakres informacji zwracany przez cap"
+          <a href="logger.html" title="6. Zakres informacji zwracany przez cap"
              accesskey="N">dalej</a> |</li>
         <li class="right" >
-          <a href="setup.html" title="6. Inicjalizacja środowiska produkcyjnego aplikacji"
+          <a href="check.html" title="4. Sprawdzanie ustawień na serwerze lokalnym i zdalnym"
              accesskey="P">wstecz</a> |</li>
         <li><a href="../index.html">Wdrażanie (deployment) projektów Symfony2 przy pomocy Capifony 1.0 - dokumentacja</a> &raquo;</li> 
       </ul>
@@ -48,7 +48,7 @@
           <div class="body">
             
   <div class="section" id="source-control-management">
-<h1>7. Source Control Management<a class="headerlink" href="#source-control-management" title="Stały odnośnik do tego nagłówka">¶</a></h1>
+<h1>5. Source Control Management<a class="headerlink" href="#source-control-management" title="Stały odnośnik do tego nagłówka">¶</a></h1>
 <p>Przykładowa konfiguracja w <tt class="docutils literal"><span class="pre">Capfile</span></tt></p>
 <div class="highlight-ruby"><div class="highlight"><pre><span class="n">set</span> <span class="ss">:application</span><span class="p">,</span>   <span class="s2">&quot;myapp&quot;</span>
 <span class="n">set</span> <span class="ss">:user</span><span class="p">,</span>          <span class="s2">&quot;dude&quot;</span>
@@ -56,15 +56,20 @@
 <span class="n">set</span> <span class="ss">:repository</span><span class="p">,</span>    <span class="s2">&quot;git@myscm.server.net:/home/git/repos/</span><span class="si">#{</span><span class="n">application</span><span class="si">}</span><span class="s2">.git&quot;</span>
 <span class="n">set</span> <span class="ss">:deploy_to</span><span class="p">,</span>     <span class="s2">&quot;/var/www/</span><span class="si">#{</span><span class="n">domain</span><span class="si">}</span><span class="s2">&quot;</span>
 
+<span class="n">role</span> <span class="ss">:app</span><span class="p">,</span>          <span class="ss">:domain</span><span class="p">,</span> <span class="ss">:primary</span> <span class="o">=&gt;</span> <span class="kp">true</span>  <span class="c1"># This may be the same as your ``Web`` server</span>
+<span class="n">role</span> <span class="ss">:web</span><span class="p">,</span>          <span class="ss">:domain</span>                    <span class="c1"># Your HTTP server, Apache/etc</span>
+
 <span class="n">set</span> <span class="ss">:scm</span><span class="p">,</span>        <span class="ss">:git</span>
 <span class="n">set</span> <span class="ss">:deploy_via</span><span class="p">,</span> <span class="ss">:copy</span>
 </pre></div>
 </div>
 <div class="section" id="wartosci-scm">
-<h2>7.1. Wartości <tt class="docutils literal"><span class="pre">:scm</span></tt><a class="headerlink" href="#wartosci-scm" title="Stały odnośnik do tego nagłówka">¶</a></h2>
+<h2>5.1. Wartości <tt class="docutils literal"><span class="pre">:scm</span></tt><a class="headerlink" href="#wartosci-scm" title="Stały odnośnik do tego nagłówka">¶</a></h2>
 <dl class="docutils">
 <dt><strong>:none</strong></dt>
 <dd>System kontroli wersji nie jest stosowany</dd>
+<dt><strong>:scm</strong></dt>
+<dd>System kontroli wersji jest wykrywany automatycznie</dd>
 <dt><strong>:git</strong></dt>
 <dd>GIT <a class="reference external" href="http://git-scm.com">http://git-scm.com</a></dd>
 <dt><strong>:accurev</strong></dt>
@@ -84,11 +89,26 @@
 </dl>
 </div>
 <div class="section" id="wartosci-deploy-via">
-<h2>7.2. Wartości <tt class="docutils literal"><span class="pre">:deploy_via</span></tt><a class="headerlink" href="#wartosci-deploy-via" title="Stały odnośnik do tego nagłówka">¶</a></h2>
+<h2>5.2. Wartości <tt class="docutils literal"><span class="pre">:deploy_via</span></tt><a class="headerlink" href="#wartosci-deploy-via" title="Stały odnośnik do tego nagłówka">¶</a></h2>
 <dl class="docutils">
 <dt><strong>:copy</strong></dt>
-<dd>Na <strong>serwerze źródłowym</strong> wykonuje eksport wersji do katalogu <tt class="docutils literal"><span class="pre">/tmp</span></tt>, następnie kopiuje jego zawartość
-na <strong>serwer produkcyjny</strong>. Preferowane użycie, nie zadziała jak serwer źródłowy i produkcyjny jest tą samą maszyną.</dd>
+<dd>Na <strong>serwerze źródłowym</strong> wykonuje eksport wersji, domyślnie, do katalogu <tt class="docutils literal"><span class="pre">/tmp</span></tt>, następnie kopiuje jego zawartość
+na <strong>serwer produkcyjny</strong>.</dd>
+</dl>
+<div class="highlight-ruby"><div class="highlight"><pre><span class="n">set</span> <span class="ss">:copy_dir</span><span class="p">,</span> <span class="s2">&quot;./tmp&quot;</span> <span class="c1"># optional</span>
+
+<span class="n">set</span> <span class="ss">:copy_exclude</span><span class="p">,</span>  <span class="o">[</span>
+    <span class="s2">&quot;.git&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;.gitignore&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;/app/config/config_test.yml&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;/bin&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;/src/Application/MainBundle/Tests&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;/src/Application/MainBundle/Resources/doc&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;/web/apple-touch-icon.png&quot;</span><span class="p">,</span>
+<span class="o">]</span>
+</pre></div>
+</div>
+<dl class="docutils">
 <dt><strong>:checkout</strong></dt>
 <dd>Wykonuje operację <tt class="docutils literal"><span class="pre">checkout</span></tt> na <strong>serwerze produkcyjnym</strong>, nie zalecany, ze względu na możliwość nieautoryzowanej
 modyfikacji zawartości repozytorium.</dd>
@@ -102,6 +122,13 @@ Jeżeli w czasie wdrożenia pojawią się problemy należy usunąć katalog <tt 
 <dd>W tym przypadku <tt class="docutils literal"><span class="pre">rsync</span></tt> utworzy katalog na <strong>serwerze produkcyjnym</strong> i będzie go synchronizował ze zmianami w repozytorium.
 Wymaga instalacji dodatkowego <tt class="docutils literal"><span class="pre">gema</span></tt>.</dd>
 </dl>
+</div>
+<div class="section" id="wartosci-specyficzne-dla-danego-scm">
+<h2>5.3. Wartości specyficzne dla danego <tt class="docutils literal"><span class="pre">SCM</span></tt><a class="headerlink" href="#wartosci-specyficzne-dla-danego-scm" title="Stały odnośnik do tego nagłówka">¶</a></h2>
+<p>Możemy dodać do konfiguracji dodatkowe parametry, specyficzne dla użytego <tt class="docutils literal"><span class="pre">SCM</span></tt> np.</p>
+<div class="highlight-ruby"><div class="highlight"><pre><span class="n">set</span> <span class="ss">:git_enable_submodules</span><span class="p">,</span> <span class="kp">true</span>
+</pre></div>
+</div>
 </div>
 </div>
 
@@ -117,10 +144,10 @@ Wymaga instalacji dodatkowego <tt class="docutils literal"><span class="pre">gem
           <a href="../genindex.html" title="Indeks ogólny"
              >indeks</a></li>
         <li class="right" >
-          <a href="logger.html" title="8. Zakres informacji zwracany przez cap"
+          <a href="logger.html" title="6. Zakres informacji zwracany przez cap"
              >dalej</a> |</li>
         <li class="right" >
-          <a href="setup.html" title="6. Inicjalizacja środowiska produkcyjnego aplikacji"
+          <a href="check.html" title="4. Sprawdzanie ustawień na serwerze lokalnym i zdalnym"
              >wstecz</a> |</li>
         <li><a href="../index.html">Wdrażanie (deployment) projektów Symfony2 przy pomocy Capifony 1.0 - dokumentacja</a> &raquo;</li> 
       </ul>

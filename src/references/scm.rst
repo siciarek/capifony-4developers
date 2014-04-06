@@ -11,15 +11,19 @@ Przykładowa konfiguracja w ``Capfile``
     set :repository,    "git@myscm.server.net:/home/git/repos/#{application}.git"
     set :deploy_to,     "/var/www/#{domain}"
 
+    role :app,          :domain, :primary => true  # This may be the same as your ``Web`` server
+    role :web,          :domain                    # Your HTTP server, Apache/etc
+
     set :scm,        :git
     set :deploy_via, :copy
-
 
 Wartości ``:scm``
 -----------------
 
 **:none**
     System kontroli wersji nie jest stosowany
+**:scm**
+    System kontroli wersji jest wykrywany automatycznie
 **:git**
     GIT http://git-scm.com
 **:accurev**
@@ -41,8 +45,23 @@ Wartości ``:deploy_via``
 ------------------------
 
 **:copy**
-    Na **serwerze źródłowym** wykonuje eksport wersji do katalogu ``/tmp``, następnie kopiuje jego zawartość
-    na **serwer produkcyjny**. Preferowane użycie, nie zadziała jak serwer źródłowy i produkcyjny jest tą samą maszyną.
+    Na **serwerze źródłowym** wykonuje eksport wersji, domyślnie, do katalogu ``/tmp``, następnie kopiuje jego zawartość
+    na **serwer produkcyjny**.
+
+.. code-block:: ruby
+
+    set :copy_dir, "./tmp" # optional
+
+    set :copy_exclude,  [
+        ".git",
+        ".gitignore",
+        "/app/config/config_test.yml",
+        "/bin",
+        "/src/Application/MainBundle/Tests",
+        "/src/Application/MainBundle/Resources/doc",
+        "/web/apple-touch-icon.png",
+    ]
+
 **:checkout**
     Wykonuje operację ``checkout`` na **serwerze produkcyjnym**, nie zalecany, ze względu na możliwość nieautoryzowanej
     modyfikacji zawartości repozytorium.
@@ -58,3 +77,12 @@ Wartości ``:deploy_via``
 
 .. code-block:: bash
     $ gem install capistrano_rsync_with_remote_cache
+
+Wartości specyficzne dla danego ``SCM``
+---------------------------------------
+
+Możemy dodać do konfiguracji dodatkowe parametry, specyficzne dla użytego ``SCM`` np.
+
+.. code-block:: ruby
+
+    set :git_enable_submodules, true

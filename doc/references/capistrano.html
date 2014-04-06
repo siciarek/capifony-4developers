@@ -6,7 +6,7 @@
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     
-    <title>4. Capistrano - Swiss Army Knife &mdash; Wdrażanie (deployment) projektów Symfony2 przy pomocy Capifony 1.0 - dokumentacja</title>
+    <title>2. Capistrano - Swiss Army Knife &mdash; Wdrażanie (deployment) projektów Symfony2 przy pomocy Capifony 1.0 - dokumentacja</title>
     
     <link rel="stylesheet" href="../_static/nature.css" type="text/css" />
     <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
@@ -23,8 +23,8 @@
     </script>
     <script type="text/javascript" src="http://symfony.com/js/all.js"></script>
     <link rel="top" title="Wdrażanie (deployment) projektów Symfony2 przy pomocy Capifony 1.0 - dokumentacja" href="../index.html" />
-    <link rel="next" title="5. Sprawdzanie ustawień na serwerze lokalnym i zdalnym" href="check.html" />
-    <link rel="prev" title="3. Narzędzie do synchronizacji katalogów rsync" href="rsync.html" /> 
+    <link rel="next" title="3. Inicjalizacja środowiska produkcyjnego aplikacji" href="setup.html" />
+    <link rel="prev" title="1. Narzędzie do synchronizacji katalogów rsync" href="rsync.html" /> 
   </head>
   <body>
     <div class="related">
@@ -34,10 +34,10 @@
           <a href="../genindex.html" title="Indeks ogólny"
              accesskey="I">indeks</a></li>
         <li class="right" >
-          <a href="check.html" title="5. Sprawdzanie ustawień na serwerze lokalnym i zdalnym"
+          <a href="setup.html" title="3. Inicjalizacja środowiska produkcyjnego aplikacji"
              accesskey="N">dalej</a> |</li>
         <li class="right" >
-          <a href="rsync.html" title="3. Narzędzie do synchronizacji katalogów rsync"
+          <a href="rsync.html" title="1. Narzędzie do synchronizacji katalogów rsync"
              accesskey="P">wstecz</a> |</li>
         <li><a href="../index.html">Wdrażanie (deployment) projektów Symfony2 przy pomocy Capifony 1.0 - dokumentacja</a> &raquo;</li> 
       </ul>
@@ -48,14 +48,14 @@
           <div class="body">
             
   <div class="section" id="capistrano-swiss-army-knife">
-<h1>4. Capistrano - Swiss Army Knife<a class="headerlink" href="#capistrano-swiss-army-knife" title="Stały odnośnik do tego nagłówka">¶</a></h1>
+<h1>2. Capistrano - Swiss Army Knife<a class="headerlink" href="#capistrano-swiss-army-knife" title="Stały odnośnik do tego nagłówka">¶</a></h1>
 <p><tt class="docutils literal"><span class="pre">Capistrano</span></tt> jest napisanym w języku <tt class="docutils literal"><span class="pre">ruby</span></tt> systemem zdalnego zarządzania zasobami serwerów, przeznaczonym dla
 dowolnego języka programowania. Może służyć do wdrażania lub zdalnego wykonywania komend
 na wielu serwerach jednocześnie.</p>
 <p>System powstał z myślą o wdrażaniu projektów <tt class="docutils literal"><span class="pre">ruby</span> <span class="pre">on</span> <span class="pre">rails</span></tt>, jednak jego funkcjonalność
 jest na tyle uniwersalna, że może służyć właściwie dla każdego języka programowania i każdego typu projektu.</p>
 <div class="section" id="instalacja">
-<h2>4.1. Instalacja<a class="headerlink" href="#instalacja" title="Stały odnośnik do tego nagłówka">¶</a></h2>
+<h2>2.1. Instalacja<a class="headerlink" href="#instalacja" title="Stały odnośnik do tego nagłówka">¶</a></h2>
 <p><tt class="docutils literal"><span class="pre">Capistrano</span></tt> jest dostępny jako pakiet <tt class="docutils literal"><span class="pre">gem</span></tt> dla <tt class="docutils literal"><span class="pre">ruby</span></tt>.</p>
 <div class="highlight-bash"><div class="highlight"><pre><span class="nv">$ </span>gem -v
 1.8.23
@@ -92,7 +92,7 @@ Usage: cap [options] action ...
 </div>
 </div>
 <div class="section" id="skrypt-cap">
-<h2>4.2. Skrypt <tt class="docutils literal"><span class="pre">cap</span></tt><a class="headerlink" href="#skrypt-cap" title="Stały odnośnik do tego nagłówka">¶</a></h2>
+<h2>2.2. Skrypt <tt class="docutils literal"><span class="pre">cap</span></tt><a class="headerlink" href="#skrypt-cap" title="Stały odnośnik do tego nagłówka">¶</a></h2>
 <p>Skrypt <tt class="docutils literal"><span class="pre">cap</span></tt> jest narzędziem umożliwiającym połączenie ze zdalnymi serwerami i wykonywanie
 na nich komend.</p>
 <div class="highlight-bash"><div class="highlight"><pre><span class="nv">$ </span>cat <span class="sb">`</span>which cap<span class="sb">`</span>
@@ -124,6 +124,7 @@ load Gem.bin_path<span class="o">(</span><span class="s1">&#39;capistrano&#39;</
 <p>Lista dostępnych komend po wydaniu polecenia</p>
 <div class="highlight-bash"><div class="highlight"><pre><span class="nv">$ </span>cap -T
 <span class="nv">$ </span>cap -vT
+<span class="nv">$ </span>cap -T doctrine
 </pre></div>
 </div>
 <p>Skryptu można używać z linii komend podając odpowiednie parametry:</p>
@@ -177,7 +178,7 @@ failed: &quot;sh -c &#39;sudo -p &#39;\\&#39;&#39;sudo password: &#39;\\&#39;&#3
 <p><tt class="docutils literal"><span class="pre">deploy.rb</span></tt> - alternatywne ustawienie dla projektu</p>
 </div>
 <div class="section" id="automatyczne-tworzenie-pliku-konfiguracji">
-<h2>4.3. Automatyczne tworzenie pliku konfiguracji<a class="headerlink" href="#automatyczne-tworzenie-pliku-konfiguracji" title="Stały odnośnik do tego nagłówka">¶</a></h2>
+<h2>2.3. Automatyczne tworzenie pliku konfiguracji<a class="headerlink" href="#automatyczne-tworzenie-pliku-konfiguracji" title="Stały odnośnik do tego nagłówka">¶</a></h2>
 <p>Plik konfiguracyjny dla projektu można utworzyć automatycznie:</p>
 <div class="highlight-bash"><div class="highlight"><pre><span class="nv">$ </span><span class="nb">cd</span> /path/to/your/project
 <span class="nv">$ </span>capify .
@@ -235,7 +236,7 @@ deploy.rb
 </div>
 </div>
 <div class="section" id="przykladowa-konfiguracja-w-pliku-capfile">
-<h2>4.4. Przykładowa konfiguracja w pliku <tt class="docutils literal"><span class="pre">Capfile</span></tt><a class="headerlink" href="#przykladowa-konfiguracja-w-pliku-capfile" title="Stały odnośnik do tego nagłówka">¶</a></h2>
+<h2>2.4. Przykładowa konfiguracja w pliku <tt class="docutils literal"><span class="pre">Capfile</span></tt><a class="headerlink" href="#przykladowa-konfiguracja-w-pliku-capfile" title="Stały odnośnik do tego nagłówka">¶</a></h2>
 <div class="highlight-ruby"><div class="highlight"><pre><span class="nb">load</span> <span class="s1">&#39;deploy&#39;</span> <span class="k">if</span> <span class="nb">respond_to?</span><span class="p">(</span><span class="ss">:namespace</span><span class="p">)</span> <span class="c1"># cap2 differentiator</span>
 
 <span class="c1"># RUN OPTIONS:</span>
@@ -273,10 +274,10 @@ deploy.rb
           <a href="../genindex.html" title="Indeks ogólny"
              >indeks</a></li>
         <li class="right" >
-          <a href="check.html" title="5. Sprawdzanie ustawień na serwerze lokalnym i zdalnym"
+          <a href="setup.html" title="3. Inicjalizacja środowiska produkcyjnego aplikacji"
              >dalej</a> |</li>
         <li class="right" >
-          <a href="rsync.html" title="3. Narzędzie do synchronizacji katalogów rsync"
+          <a href="rsync.html" title="1. Narzędzie do synchronizacji katalogów rsync"
              >wstecz</a> |</li>
         <li><a href="../index.html">Wdrażanie (deployment) projektów Symfony2 przy pomocy Capifony 1.0 - dokumentacja</a> &raquo;</li> 
       </ul>

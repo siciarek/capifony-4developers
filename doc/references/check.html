@@ -6,7 +6,7 @@
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     
-    <title>5. Sprawdzanie ustawień na serwerze lokalnym i zdalnym &mdash; Wdrażanie (deployment) projektów Symfony2 przy pomocy Capifony 1.0 - dokumentacja</title>
+    <title>4. Sprawdzanie ustawień na serwerze lokalnym i zdalnym &mdash; Wdrażanie (deployment) projektów Symfony2 przy pomocy Capifony 1.0 - dokumentacja</title>
     
     <link rel="stylesheet" href="../_static/nature.css" type="text/css" />
     <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
@@ -23,8 +23,8 @@
     </script>
     <script type="text/javascript" src="http://symfony.com/js/all.js"></script>
     <link rel="top" title="Wdrażanie (deployment) projektów Symfony2 przy pomocy Capifony 1.0 - dokumentacja" href="../index.html" />
-    <link rel="next" title="6. Inicjalizacja środowiska produkcyjnego aplikacji" href="setup.html" />
-    <link rel="prev" title="4. Capistrano - Swiss Army Knife" href="capistrano.html" /> 
+    <link rel="next" title="5. Source Control Management" href="scm.html" />
+    <link rel="prev" title="3. Inicjalizacja środowiska produkcyjnego aplikacji" href="setup.html" /> 
   </head>
   <body>
     <div class="related">
@@ -34,10 +34,10 @@
           <a href="../genindex.html" title="Indeks ogólny"
              accesskey="I">indeks</a></li>
         <li class="right" >
-          <a href="setup.html" title="6. Inicjalizacja środowiska produkcyjnego aplikacji"
+          <a href="scm.html" title="5. Source Control Management"
              accesskey="N">dalej</a> |</li>
         <li class="right" >
-          <a href="capistrano.html" title="4. Capistrano - Swiss Army Knife"
+          <a href="setup.html" title="3. Inicjalizacja środowiska produkcyjnego aplikacji"
              accesskey="P">wstecz</a> |</li>
         <li><a href="../index.html">Wdrażanie (deployment) projektów Symfony2 przy pomocy Capifony 1.0 - dokumentacja</a> &raquo;</li> 
       </ul>
@@ -48,7 +48,7 @@
           <div class="body">
             
   <div class="section" id="sprawdzanie-ustawien-na-serwerze-lokalnym-i-zdalnym">
-<h1>5. Sprawdzanie ustawień na serwerze lokalnym i zdalnym<a class="headerlink" href="#sprawdzanie-ustawien-na-serwerze-lokalnym-i-zdalnym" title="Stały odnośnik do tego nagłówka">¶</a></h1>
+<h1>4. Sprawdzanie ustawień na serwerze lokalnym i zdalnym<a class="headerlink" href="#sprawdzanie-ustawien-na-serwerze-lokalnym-i-zdalnym" title="Stały odnośnik do tego nagłówka">¶</a></h1>
 <p>Aby umożliwić sprawdzenie ustawień na lokalnym i zdalnym serwerze <tt class="docutils literal"><span class="pre">Capistrano</span></tt> udostępnia polecenie</p>
 <div class="highlight-bash"><div class="highlight"><pre><span class="nv">$ </span>cap deploy:check
 </pre></div>
@@ -89,7 +89,7 @@ się błędy, wtedy wyświetlane są w postaci komunikatu np.:</p>
 </div></blockquote>
 <p><strong>Trzeci parametr</strong> to nazwa sprawdzanego zasobu w postaci <tt class="docutils literal"><span class="pre">łańcucha</span> <span class="pre">znaków</span></tt>.</p>
 <div class="section" id="przyklady-uzycia">
-<h2>5.1. Przykłady użycia<a class="headerlink" href="#przyklady-uzycia" title="Stały odnośnik do tego nagłówka">¶</a></h2>
+<h2>4.1. Przykłady użycia<a class="headerlink" href="#przyklady-uzycia" title="Stały odnośnik do tego nagłówka">¶</a></h2>
 <div class="highlight-ruby"><div class="highlight"><pre><span class="n">depend</span> <span class="ss">:local</span><span class="p">,</span>  <span class="ss">:command</span><span class="p">,</span> <span class="s2">&quot;convert&quot;</span>
 <span class="n">depend</span> <span class="ss">:remote</span><span class="p">,</span> <span class="ss">:command</span><span class="p">,</span> <span class="s2">&quot;setfacl&quot;</span>
 </pre></div>
@@ -109,10 +109,10 @@ się błędy, wtedy wyświetlane są w postaci komunikatu np.:</p>
           <a href="../genindex.html" title="Indeks ogólny"
              >indeks</a></li>
         <li class="right" >
-          <a href="setup.html" title="6. Inicjalizacja środowiska produkcyjnego aplikacji"
+          <a href="scm.html" title="5. Source Control Management"
              >dalej</a> |</li>
         <li class="right" >
-          <a href="capistrano.html" title="4. Capistrano - Swiss Army Knife"
+          <a href="setup.html" title="3. Inicjalizacja środowiska produkcyjnego aplikacji"
              >wstecz</a> |</li>
         <li><a href="../index.html">Wdrażanie (deployment) projektów Symfony2 przy pomocy Capifony 1.0 - dokumentacja</a> &raquo;</li> 
       </ul>

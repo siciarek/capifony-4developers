@@ -91,6 +91,7 @@ Lista dostępnych komend po wydaniu polecenia
 
     $ cap -T
     $ cap -vT
+    $ cap -T doctrine
 
 Skryptu można używać z linii komend podając odpowiednie parametry:
 

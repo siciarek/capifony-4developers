@@ -40,7 +40,7 @@ Aby ``capistrano`` korzystał ze zmodyfikowanego szablonu należy dodać do ``Ca
 
 .. code-block:: bash
 
-    cap deploy:web:disable REASON="migracji baz danych na nowy serwer" UNTIL="20 lutego 2014 9:30"
+    cap deploy:web:disable REASON="migracji baz danych na nowy serwer" UNTIL="8 kwietnia 2014 o 9:30"
 
 
 Konfiguracja serwerów www

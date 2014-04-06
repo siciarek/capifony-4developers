@@ -23,7 +23,7 @@
     </script>
     <script type="text/javascript" src="http://symfony.com/js/all.js"></script>
     <link rel="top" title="Wdrażanie (deployment) projektów Symfony2 przy pomocy Capifony 1.0 - dokumentacja" href="#" />
-    <link rel="next" title="1. Co to jest wdrożenie (deployment)" href="references/deployment.html" /> 
+    <link rel="next" title="1. Narzędzie do synchronizacji katalogów rsync" href="references/rsync.html" /> 
   </head>
   <body>
     <div class="related">
@@ -33,7 +33,7 @@
           <a href="genindex.html" title="Indeks ogólny"
              accesskey="I">indeks</a></li>
         <li class="right" >
-          <a href="references/deployment.html" title="1. Co to jest wdrożenie (deployment)"
+          <a href="references/rsync.html" title="1. Narzędzie do synchronizacji katalogów rsync"
              accesskey="N">dalej</a> |</li>
         <li><a href="#">Wdrażanie (deployment) projektów Symfony2 przy pomocy Capifony 1.0 - dokumentacja</a> &raquo;</li> 
       </ul>
@@ -51,17 +51,19 @@
 <h1>Spis treści<a class="headerlink" href="#spis-tresci" title="Stały odnośnik do tego nagłówka">¶</a></h1>
 <div class="toctree-wrapper compound">
 <ul>
-<li class="toctree-l1"><a class="reference internal" href="references/deployment.html">1. Co to jest wdrożenie (deployment)</a></li>
-<li class="toctree-l1"><a class="reference internal" href="references/deployment.strategies.html">2. Strategie wdrożeniowe</a></li>
-<li class="toctree-l1"><a class="reference internal" href="references/rsync.html">3. Narzędzie do synchronizacji katalogów <tt class="docutils literal"><span class="pre">rsync</span></tt></a></li>
-<li class="toctree-l1"><a class="reference internal" href="references/capistrano.html">4. Capistrano - Swiss Army Knife</a></li>
-<li class="toctree-l1"><a class="reference internal" href="references/check.html">5. Sprawdzanie ustawień na serwerze lokalnym i zdalnym</a></li>
-<li class="toctree-l1"><a class="reference internal" href="references/setup.html">6. Inicjalizacja środowiska produkcyjnego aplikacji</a></li>
-<li class="toctree-l1"><a class="reference internal" href="references/scm.html">7. Source Control Management</a></li>
-<li class="toctree-l1"><a class="reference internal" href="references/logger.html">8. Zakres informacji zwracany przez <tt class="docutils literal"><span class="pre">cap</span></tt></a></li>
-<li class="toctree-l1"><a class="reference internal" href="references/capifony.html">9. Capifony - Capistrano dla Symfony</a></li>
-<li class="toctree-l1"><a class="reference internal" href="references/access.html">10. Ustawienie odpowiednich praw dostępu do katalogów</a></li>
+<li class="toctree-l1"><a class="reference internal" href="references/rsync.html">1. Narzędzie do synchronizacji katalogów <tt class="docutils literal"><span class="pre">rsync</span></tt></a></li>
+<li class="toctree-l1"><a class="reference internal" href="references/capistrano.html">2. Capistrano - Swiss Army Knife</a></li>
+<li class="toctree-l1"><a class="reference internal" href="references/setup.html">3. Inicjalizacja środowiska produkcyjnego aplikacji</a></li>
+<li class="toctree-l1"><a class="reference internal" href="references/check.html">4. Sprawdzanie ustawień na serwerze lokalnym i zdalnym</a></li>
+<li class="toctree-l1"><a class="reference internal" href="references/scm.html">5. Source Control Management</a></li>
+<li class="toctree-l1"><a class="reference internal" href="references/logger.html">6. Zakres informacji zwracany przez <tt class="docutils literal"><span class="pre">cap</span></tt></a></li>
+<li class="toctree-l1"><a class="reference internal" href="references/capifony.html">7. Capifony - Capistrano dla Symfony</a></li>
+<li class="toctree-l1"><a class="reference internal" href="references/access.html">8. Ustawienie odpowiednich praw dostępu do katalogów</a></li>
+<li class="toctree-l1"><a class="reference internal" href="references/symfony.html">9. Elementy specyficzne dla Symfony 2</a></li>
+<li class="toctree-l1"><a class="reference internal" href="references/tasks.html">10. Zdefiniowane zadania <tt class="docutils literal"><span class="pre">tasks</span></tt> i wyzwalacze <tt class="docutils literal"><span class="pre">triggers</span></tt></a></li>
 <li class="toctree-l1"><a class="reference internal" href="references/maintenance.html">11. Włączanie i wyłączanie aplikacji</a></li>
+<li class="toctree-l1"><a class="reference internal" href="references/capfile.html">12. Przykładowy, produkcyjny plik <tt class="docutils literal"><span class="pre">Capfile</span></tt></a></li>
+<li class="toctree-l1"><a class="reference internal" href="references/tools.html">13. Narzędzia dodatkowe <tt class="docutils literal"><span class="pre">ant</span></tt></a></li>
 </ul>
 </div>
 </div>
@@ -78,7 +80,7 @@
           <a href="genindex.html" title="Indeks ogólny"
              >indeks</a></li>
         <li class="right" >
-          <a href="references/deployment.html" title="1. Co to jest wdrożenie (deployment)"
+          <a href="references/rsync.html" title="1. Narzędzie do synchronizacji katalogów rsync"
              >dalej</a> |</li>
         <li><a href="#">Wdrażanie (deployment) projektów Symfony2 przy pomocy Capifony 1.0 - dokumentacja</a> &raquo;</li> 
       </ul>

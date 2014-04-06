@@ -6,7 +6,7 @@
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     
-    <title>6. Inicjalizacja środowiska produkcyjnego aplikacji &mdash; Wdrażanie (deployment) projektów Symfony2 przy pomocy Capifony 1.0 - dokumentacja</title>
+    <title>3. Inicjalizacja środowiska produkcyjnego aplikacji &mdash; Wdrażanie (deployment) projektów Symfony2 przy pomocy Capifony 1.0 - dokumentacja</title>
     
     <link rel="stylesheet" href="../_static/nature.css" type="text/css" />
     <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
@@ -23,8 +23,8 @@
     </script>
     <script type="text/javascript" src="http://symfony.com/js/all.js"></script>
     <link rel="top" title="Wdrażanie (deployment) projektów Symfony2 przy pomocy Capifony 1.0 - dokumentacja" href="../index.html" />
-    <link rel="next" title="7. Source Control Management" href="scm.html" />
-    <link rel="prev" title="5. Sprawdzanie ustawień na serwerze lokalnym i zdalnym" href="check.html" /> 
+    <link rel="next" title="4. Sprawdzanie ustawień na serwerze lokalnym i zdalnym" href="check.html" />
+    <link rel="prev" title="2. Capistrano - Swiss Army Knife" href="capistrano.html" /> 
   </head>
   <body>
     <div class="related">
@@ -34,10 +34,10 @@
           <a href="../genindex.html" title="Indeks ogólny"
              accesskey="I">indeks</a></li>
         <li class="right" >
-          <a href="scm.html" title="7. Source Control Management"
+          <a href="check.html" title="4. Sprawdzanie ustawień na serwerze lokalnym i zdalnym"
              accesskey="N">dalej</a> |</li>
         <li class="right" >
-          <a href="check.html" title="5. Sprawdzanie ustawień na serwerze lokalnym i zdalnym"
+          <a href="capistrano.html" title="2. Capistrano - Swiss Army Knife"
              accesskey="P">wstecz</a> |</li>
         <li><a href="../index.html">Wdrażanie (deployment) projektów Symfony2 przy pomocy Capifony 1.0 - dokumentacja</a> &raquo;</li> 
       </ul>
@@ -48,7 +48,7 @@
           <div class="body">
             
   <div class="section" id="inicjalizacja-srodowiska-produkcyjnego-aplikacji">
-<h1>6. Inicjalizacja środowiska produkcyjnego aplikacji<a class="headerlink" href="#inicjalizacja-srodowiska-produkcyjnego-aplikacji" title="Stały odnośnik do tego nagłówka">¶</a></h1>
+<h1>3. Inicjalizacja środowiska produkcyjnego aplikacji<a class="headerlink" href="#inicjalizacja-srodowiska-produkcyjnego-aplikacji" title="Stały odnośnik do tego nagłówka">¶</a></h1>
 <p>Przykładowa konfiguracja w <tt class="docutils literal"><span class="pre">Capfile</span></tt></p>
 <div class="highlight-ruby"><div class="highlight"><pre><span class="n">set</span> <span class="ss">:application</span><span class="p">,</span>   <span class="s2">&quot;myapp&quot;</span>
 <span class="n">set</span> <span class="ss">:user</span><span class="p">,</span>          <span class="s2">&quot;dude&quot;</span>
@@ -61,7 +61,7 @@
 </pre></div>
 </div>
 <div class="section" id="przygotowanie-srodowiska-produkcyjnego">
-<h2>6.1. Przygotowanie środowiska produkcyjnego<a class="headerlink" href="#przygotowanie-srodowiska-produkcyjnego" title="Stały odnośnik do tego nagłówka">¶</a></h2>
+<h2>3.1. Przygotowanie środowiska produkcyjnego<a class="headerlink" href="#przygotowanie-srodowiska-produkcyjnego" title="Stały odnośnik do tego nagłówka">¶</a></h2>
 <div class="highlight-bash"><div class="highlight"><pre><span class="nv">$ </span>cap deploy:setup
 </pre></div>
 </div>
@@ -99,13 +99,13 @@ struktura katalogów:</p>
 </div>
 </div>
 <div class="section" id="sprawdzenie-konfiguracji-serwera-produkcyjnego">
-<h2>6.2. Sprawdzenie konfiguracji serwera produkcyjnego<a class="headerlink" href="#sprawdzenie-konfiguracji-serwera-produkcyjnego" title="Stały odnośnik do tego nagłówka">¶</a></h2>
+<h2>3.2. Sprawdzenie konfiguracji serwera produkcyjnego<a class="headerlink" href="#sprawdzenie-konfiguracji-serwera-produkcyjnego" title="Stały odnośnik do tego nagłówka">¶</a></h2>
 <div class="highlight-bash"><div class="highlight"><pre>cap deploy:check
 </pre></div>
 </div>
 </div>
 <div class="section" id="przyklad-zawartosci-katalogu-aplikacji-po-kolejnym-wdrozeniu">
-<h2>6.3. Przykład zawartości katalogu aplikacji po kolejnym wdrożeniu<a class="headerlink" href="#przyklad-zawartosci-katalogu-aplikacji-po-kolejnym-wdrozeniu" title="Stały odnośnik do tego nagłówka">¶</a></h2>
+<h2>3.3. Przykład zawartości katalogu aplikacji po kolejnym wdrożeniu<a class="headerlink" href="#przyklad-zawartosci-katalogu-aplikacji-po-kolejnym-wdrozeniu" title="Stały odnośnik do tego nagłówka">¶</a></h2>
 <div class="highlight-none"><div class="highlight"><pre>`-- /var/www/target.server.com
 |-- current -&gt; /var/www/target.server.com/releases/20100512131539
 |-- releases
@@ -137,10 +137,10 @@ struktura katalogów:</p>
           <a href="../genindex.html" title="Indeks ogólny"
              >indeks</a></li>
         <li class="right" >
-          <a href="scm.html" title="7. Source Control Management"
+          <a href="check.html" title="4. Sprawdzanie ustawień na serwerze lokalnym i zdalnym"
              >dalej</a> |</li>
         <li class="right" >
-          <a href="check.html" title="5. Sprawdzanie ustawień na serwerze lokalnym i zdalnym"
+          <a href="capistrano.html" title="2. Capistrano - Swiss Army Knife"
              >wstecz</a> |</li>
         <li><a href="../index.html">Wdrażanie (deployment) projektów Symfony2 przy pomocy Capifony 1.0 - dokumentacja</a> &raquo;</li> 
       </ul>
