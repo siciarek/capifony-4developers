@@ -1,0 +1,161 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>10. Zdefiniowane zadania tasks i wyzwalacze triggers &mdash; Wdrażanie (deployment) projektów Symfony2 przy pomocy Capifony 1.0 - dokumentacja</title>
+    
+    <link rel="stylesheet" href="../_static/nature.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    <link rel="stylesheet" href="http://symfony.com/css/compiled/all.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../',
+        VERSION:     '1.0',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="http://symfony.com/js/all.js"></script>
+    <link rel="top" title="Wdrażanie (deployment) projektów Symfony2 przy pomocy Capifony 1.0 - dokumentacja" href="../index.html" />
+    <link rel="next" title="11. Włączanie i wyłączanie aplikacji" href="maintenance.html" />
+    <link rel="prev" title="9. Elementy specyficzne dla Symfony 2" href="symfony.html" /> 
+  </head>
+  <body>
+    <div class="related">
+      <h3>Nawigacja</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="Indeks ogólny"
+             accesskey="I">indeks</a></li>
+        <li class="right" >
+          <a href="maintenance.html" title="11. Włączanie i wyłączanie aplikacji"
+             accesskey="N">dalej</a> |</li>
+        <li class="right" >
+          <a href="symfony.html" title="9. Elementy specyficzne dla Symfony 2"
+             accesskey="P">wstecz</a> |</li>
+        <li><a href="../index.html">Wdrażanie (deployment) projektów Symfony2 przy pomocy Capifony 1.0 - dokumentacja</a> &raquo;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+          <div class="body">
+            
+  <div class="section" id="zdefiniowane-zadania-tasks-i-wyzwalacze-triggers">
+<h1>10. Zdefiniowane zadania <tt class="docutils literal"><span class="pre">tasks</span></tt> i wyzwalacze <tt class="docutils literal"><span class="pre">triggers</span></tt><a class="headerlink" href="#zdefiniowane-zadania-tasks-i-wyzwalacze-triggers" title="Stały odnośnik do tego nagłówka">¶</a></h1>
+<p>Zdefiniowane zadania są sposobem na rozszerzenie podstawowych funkcjonalności
+udostępnianych przez <tt class="docutils literal"><span class="pre">cap</span></tt>.</p>
+<p>Najprostszy <tt class="docutils literal"><span class="pre">task</span></tt> prezentujący jednynie strukturę</p>
+<div class="highlight-ruby"><div class="highlight"><pre><span class="n">desc</span> <span class="s1">&#39;To jest task testowy.&#39;</span>
+<span class="n">task</span> <span class="ss">:dummy</span> <span class="k">do</span>
+    <span class="c1"># do nothing.</span>
+<span class="k">end</span>
+</pre></div>
+</div>
+<p>Wersja z bogatszym opisem</p>
+<div class="highlight-ruby"><div class="highlight"><pre><span class="n">desc</span> <span class="o">&lt;&lt;-</span><span class="no">DESC</span>
+<span class="sh">    To jest task testowy. Task testowy &quot;dummy&quot; \</span>
+<span class="sh">    służy wyłącznie do prezentacji sposobu budowania tasków \</span>
+<span class="sh">    i nie powinien zawierać żadnych istotnych elementów.</span>
+<span class="no">DESC</span>
+<span class="n">task</span> <span class="ss">:dummy</span> <span class="k">do</span>
+    <span class="c1"># do nothing.</span>
+<span class="k">end</span>
+</pre></div>
+</div>
+<p>Użycie zdefiniowanego zadania</p>
+<div class="highlight-bash"><div class="highlight"><pre><span class="nv">$ </span>cap dummy
+</pre></div>
+</div>
+<p>Bardziej użyteczny task wgrywający <tt class="docutils literal"><span class="pre">parameters.yml</span></tt> do katalogu aplikacji.</p>
+<div class="highlight-ruby"><div class="highlight"><pre><span class="n">desc</span> <span class="o">&lt;&lt;-</span><span class="no">DESC</span>
+<span class="sh">    Kopiuje plik konfiguracyjny aplikacji. Plik konfiguracyjny \</span>
+<span class="sh">    nie powinien być częścią repozytorium, ponieważ zawiera dane niejawne \</span>
+<span class="sh">    jak np. hasło dostępowe do serwera bazy danych.</span>
+<span class="no">DESC</span>
+<span class="n">task</span> <span class="ss">:upload_parameters</span> <span class="k">do</span>
+    <span class="n">origin_file</span> <span class="o">=</span> <span class="s2">&quot;parameters.yml&quot;</span>
+    <span class="n">destination_file</span> <span class="o">=</span> <span class="n">shared_path</span> <span class="o">+</span> <span class="s2">&quot;/app/config/</span><span class="si">#{</span><span class="n">origin_file</span><span class="si">}</span><span class="s2">&quot;</span> <span class="c1"># Notice the shared_path</span>
+
+    <span class="n">try_sudo</span> <span class="s2">&quot;mkdir -p </span><span class="si">#{</span><span class="no">File</span><span class="o">.</span><span class="n">dirname</span><span class="p">(</span><span class="n">destination_file</span><span class="p">)</span><span class="si">}</span><span class="s2">&quot;</span>
+    <span class="n">top</span><span class="o">.</span><span class="n">upload</span><span class="p">(</span><span class="n">origin_file</span><span class="p">,</span> <span class="n">destination_file</span><span class="p">)</span>
+<span class="k">end</span>
+
+<span class="n">before</span> <span class="s2">&quot;deploy:share_childs&quot;</span><span class="p">,</span> <span class="s2">&quot;upload_parameters&quot;</span>
+</pre></div>
+</div>
+<p>Wgrywanie i usuwanie front controllera debugującego.</p>
+<div class="highlight-ruby"><div class="highlight"><pre><span class="n">desc</span> <span class="o">&lt;&lt;-</span><span class="no">DESC</span>
+<span class="sh">    Wgraj front kontroler debugujący.</span>
+<span class="no">DESC</span>
+<span class="n">task</span> <span class="ss">:dbg</span> <span class="k">do</span>
+    <span class="n">origin_file</span> <span class="o">=</span> <span class="s2">&quot;app_dev.php&quot;</span>
+    <span class="n">destination_file</span> <span class="o">=</span> <span class="n">deploy_to</span> <span class="o">+</span> <span class="s2">&quot;/current/web/&quot;</span> <span class="o">+</span> <span class="n">origin_file</span>
+    <span class="n">top</span><span class="o">.</span><span class="n">upload</span><span class="p">(</span><span class="n">origin_file</span><span class="p">,</span> <span class="n">destination_file</span><span class="p">)</span>
+<span class="k">end</span>
+</pre></div>
+</div>
+<div class="highlight-ruby"><div class="highlight"><pre><span class="n">desc</span> <span class="o">&lt;&lt;-</span><span class="no">DESC</span>
+<span class="sh">    Usuń front kontroler debugujący.</span>
+<span class="no">DESC</span>
+<span class="n">task</span> <span class="ss">:undbg</span> <span class="k">do</span>
+    <span class="n">origin_file</span> <span class="o">=</span> <span class="s2">&quot;app_dev.php&quot;</span>
+    <span class="n">destination_file</span> <span class="o">=</span> <span class="n">deploy_to</span> <span class="o">+</span> <span class="s2">&quot;/current/web/&quot;</span> <span class="o">+</span> <span class="n">origin_file</span>
+    <span class="n">try_sudo</span> <span class="s2">&quot;rm -rvf </span><span class="si">#{</span><span class="n">destination_file</span><span class="si">}</span><span class="s2">&quot;</span>
+<span class="k">end</span>
+</pre></div>
+</div>
+<p>Działanie powyższego zbliżone jest do <tt class="docutils literal"><span class="pre">cap</span> <span class="pre">symfony:project:clear_controllers</span></tt>.</p>
+<div class="section" id="wyzwalacze-triggers">
+<h2>10.1. Wyzwalacze (triggers)<a class="headerlink" href="#wyzwalacze-triggers" title="Stały odnośnik do tego nagłówka">¶</a></h2>
+<p>Wyzwalacze pozwalają na automatyczne uruchamianie zadań wbudowanych lub zdefiniowanych
+w przypadku zaistnienia odpowiedniego zdarzenia <tt class="docutils literal"><span class="pre">event</span></tt>.</p>
+<p>Składnia</p>
+<div class="highlight-ruby"><div class="highlight"><pre><span class="n">cut_point</span><span class="p">,</span> <span class="s2">&quot;zadanie_docelowe&quot;</span><span class="p">,</span> <span class="s2">&quot;zadanie_do_wykonania_w_kontekscie&quot;</span><span class="p">,</span> <span class="s2">&quot;kolejne_zadanie_do_wykonania_w_kontekscie&quot;</span><span class="p">,</span> <span class="o">.</span><span class="n">.</span><span class="o">.</span>
+</pre></div>
+</div>
+<p>Obecnie <tt class="docutils literal"><span class="pre">capistrano</span></tt> obsługuje poniższe punkty wcięcia <tt class="docutils literal"><span class="pre">cut_point</span></tt> (aspect programming domain):</p>
+<div class="highlight-ruby"><div class="highlight"><pre><span class="c1"># * :before, uruchamia podane zadanie/zadania przed wywołaniem danego zdarzenia docelowego</span>
+<span class="c1"># * :after, po wywołaniu danego zdarzenia docelowego</span>
+<span class="c1"># * :start, przed uruchomieniem głównego zadania</span>
+<span class="c1"># * :finish, po zakończeniu głównego zadania</span>
+<span class="c1"># * :load, po załadowaniu wszystkich zadań</span>
+<span class="c1"># * :exit, po wykonaniu wszystkich zadań</span>
+</pre></div>
+</div>
+<p>Są jeszcze bardziej wymyślne konstrukcje, do zobaczenia w dokumentacji (w kodzie) <tt class="docutils literal"><span class="pre">capistrano/callback</span></tt>.</p>
+</div>
+</div>
+
+
+          </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related">
+      <h3>Nawigacja</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="Indeks ogólny"
+             >indeks</a></li>
+        <li class="right" >
+          <a href="maintenance.html" title="11. Włączanie i wyłączanie aplikacji"
+             >dalej</a> |</li>
+        <li class="right" >
+          <a href="symfony.html" title="9. Elementy specyficzne dla Symfony 2"
+             >wstecz</a> |</li>
+        <li><a href="../index.html">Wdrażanie (deployment) projektów Symfony2 przy pomocy Capifony 1.0 - dokumentacja</a> &raquo;</li> 
+      </ul>
+    </div>
+    <div class="footer">
+        &copy; Copyright 2014, Jacek Siciarek.
+      Utworzone przy pomocy <a href="http://sphinx-doc.org/">Sphinx</a>'a 1.2b3.
+    </div>
+  </body>
+</html>
